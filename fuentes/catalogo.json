@@ -856,15 +856,21 @@
         "docenciaEducacion"
       ],
       "detalle": true,
-      "notas": "Cursos y webinars gratuitos en espanol para equipos de radioterapia latinoamericanos. Tambien buscan docentes y tutores: mirar sus convocatorias.",
+      "notas": "Cursos gratuitos en espanol para equipos de radioterapia latinoamericanos, con curriculos completos para RTT y fisicos medicos. Su sitio es Wix y no entrega enlaces en el HTML: se lee por el sitemap, que si lista cada programa.",
       "estrategias": [
         {
-          "tipo": "feed",
-          "url": "https://news.google.com/rss/search?q=radioterapia%20curso%20OR%20webinar%20gratuito%20Latinoamerica%20formacion&hl=es-419&gl=CL&ceid=CL:es-419"
+          "tipo": "sitemap",
+          "url": "https://www.rayoscontracancer.org/pages-sitemap.xml",
+          "patronEnlace": "imrt|sbrt|srs|brachytherapy|braquiterapia|contouring|contorneo|hypofraction|ebrt|curriculum|training|mentorship|plan-eval|learn|updates"
         },
         {
           "tipo": "html",
-          "url": "https://www.rayoscontracancer.org/"
+          "url": "https://www.rayoscontracancer.org/training-programs",
+          "patronEnlace": "imrt|sbrt|brachy|curriculum|training"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22Rayos+Contra+Cancer%22+radioterapia+curso+OR+webinar&hl=es-419&gl=CL&ceid=CL:es-419"
         }
       ]
     },
@@ -1220,14 +1226,9 @@
       "detalle": true,
       "estrategias": [
         {
-          "tipo": "html",
-          "url": "https://www.acr.org/",
-          "patronEnlace": "Education-and-CME|Lifelong-Learning|Meetings|Courses"
-        },
-        {
-          "tipo": "html",
-          "url": "https://www.acr.org/Education-and-CME",
-          "patronEnlace": "Education|CME|Course|Meeting"
+          "tipo": "sitemap",
+          "url": "https://www.acr.org/sitemap.xml",
+          "patronEnlace": "Education-and-CME|Lifelong-Learning|/Courses/|Annual-Meeting"
         },
         {
           "tipo": "feed",
@@ -1965,6 +1966,11 @@
       "notas": "Monaco, MOSAIQ, Versa HD, Unity MR-Linac, Gamma Knife y braquiterapia.",
       "estrategias": [
         {
+          "tipo": "sitemap",
+          "url": "https://www.elekta.com/sitemap.xml",
+          "patronEnlace": "elekta-care-learning|documents-training|/focus/.*(educat|scholar|train)"
+        },
+        {
           "tipo": "html",
           "url": "https://www.elekta.com/services/elekta-care-learning/courses/"
         },
@@ -2527,9 +2533,9 @@
       "detalle": true,
       "estrategias": [
         {
-          "tipo": "html",
-          "url": "https://zapsurgical.com/",
-          "patronEnlace": "news|event|webinar|education"
+          "tipo": "sitemap",
+          "url": "https://zapsurgical.com/sitemap.xml",
+          "patronEnlace": "news|event|training|educat"
         },
         {
           "tipo": "feed",
@@ -2828,8 +2834,9 @@
       "notas": "Descuentos importantes para paises de ingreso medio. Vale la pena revisar el precio regional.",
       "estrategias": [
         {
-          "tipo": "html",
-          "url": "https://radiopaedia.org/courses"
+          "tipo": "sitemap",
+          "url": "https://radiopaedia.org/sitemap-courses.xml",
+          "patronEnlace": "course"
         },
         {
           "tipo": "feed",

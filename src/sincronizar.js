@@ -62,7 +62,7 @@ const columnas = [
   'url', 'titulo', 'resumen', 'resumen_es', 'descripcion', 'contenido', 'dinero', 'publico', 'texto', 'fuente_id', 'fuente_nombre', 'grupo', 'organizacion',
   'tipo', 'areas', 'idioma', 'pais', 'lugar', 'modalidad', 'costo', 'financiamiento',
   'fecha_inicio', 'fecha_fin', 'fecha_limite', 'fecha_estimada', 'clase_fecha', 'fecha_publicacion',
-  'puntaje', 'puntaje_detalle', 'semaforo', 'elegibilidad', 'es_semilla', 'historico', 'pista', 'anuncio',
+  'puntaje', 'puntaje_detalle', 'semaforo', 'elegibilidad', 'es_semilla', 'historico', 'pista', 'anuncio', 'retro', 'siglas',
 ];
 
 const insertar = db.db.prepare(`

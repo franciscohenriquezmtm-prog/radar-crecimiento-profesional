@@ -44,6 +44,7 @@ function expandir(fila) {
     areas: parsear(fila.areas, []),
     publico: parsear(fila.publico, []),
     dinero: parsear(fila.dinero, { montos: [], frases: [] }),
+    siglas: parsear(fila.siglas, []),
     elegibilidad: parsear(fila.elegibilidad, {}),
     puntaje_detalle: parsear(fila.puntaje_detalle, []),
   };
@@ -86,6 +87,7 @@ const servidor = http.createServer(async (req, res) => {
         historico: p.get('historico') === '1' ? true : undefined,
         pista: p.get('pista') === '1' ? true : undefined,
         anuncio: p.get('anuncio') === '1' ? true : undefined,
+        retro: p.get('retro') === '1' ? true : undefined,
         cierraEnDias: p.get('cierraEnDias') ? Number(p.get('cierraEnDias')) : undefined,
         orden: p.get('orden') || 'puntaje',
         limite: Number(p.get('limite') || 400),

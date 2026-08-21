@@ -59,7 +59,9 @@ db.exec(`
     es_semilla            INTEGER DEFAULT 0,
     historico             INTEGER DEFAULT 0,
     pista                 INTEGER DEFAULT 0,
+    siglas                TEXT,
     anuncio               INTEGER DEFAULT 0,
+    retro                 INTEGER DEFAULT 0,
     estado                TEXT DEFAULT 'nuevo',
     notas_usuario         TEXT,
     avisado               INTEGER DEFAULT 0,
@@ -129,6 +131,8 @@ function agregarColumnasQueFalten() {
     ['dinero', 'TEXT'],
     ['pista', 'INTEGER DEFAULT 0'],
     ['anuncio', 'INTEGER DEFAULT 0'],
+    ['siglas', 'TEXT'],
+    ['retro', 'INTEGER DEFAULT 0'],
   ];
   for (const [nombre, tipo] of nuevas) {
     if (!existentes.has(nombre)) db.exec(`ALTER TABLE oportunidades ADD COLUMN ${nombre} ${tipo}`);
@@ -144,7 +148,7 @@ const COLUMNAS = [
   'url', 'titulo', 'resumen', 'resumen_es', 'descripcion', 'contenido', 'dinero', 'publico', 'texto', 'fuente_id', 'fuente_nombre', 'grupo', 'organizacion',
   'tipo', 'areas', 'idioma', 'pais', 'lugar', 'modalidad', 'costo', 'financiamiento',
   'fecha_inicio', 'fecha_fin', 'fecha_limite', 'fecha_estimada', 'clase_fecha', 'fecha_publicacion',
-  'puntaje', 'puntaje_detalle', 'semaforo', 'elegibilidad', 'es_semilla', 'historico', 'pista', 'anuncio',
+  'puntaje', 'puntaje_detalle', 'semaforo', 'elegibilidad', 'es_semilla', 'historico', 'pista', 'anuncio', 'retro', 'siglas',
 ];
 
 const insertar = db.prepare(`
@@ -247,7 +251,7 @@ export function cambiarEstado(id, estado, notas) {
     .run(estado, notas ?? null, ahora(), id);
 }
 
-export function listar({ estado, tipo, area, semaforo, texto, soloAbiertas, financiado, gratis, paraMi, cierraEnDias, historico, pista, anuncio, orden, limite } = {}) {
+export function listar({ estado, tipo, area, semaforo, texto, soloAbiertas, financiado, gratis, paraMi, cierraEnDias, historico, pista, anuncio, retro, orden, limite } = {}) {
   const donde = [];
   const args = [];
   if (estado) { donde.push('estado = ?'); args.push(estado); }
@@ -277,6 +281,7 @@ export function listar({ estado, tipo, area, semaforo, texto, soloAbiertas, fina
 
   // Dentro de las noticias, las que anuncian un curso o una beca.
   if (anuncio === true) donde.push('anuncio = 1');
+  if (retro === true) donde.push('retro = 1');
   if (financiado) donde.push('financiamiento = 1');
   // Gratis, o a distancia sin costo declarado: casi siempre lo segundo tambien
   // es gratis, y dejarlo fuera escondia cosas utiles.

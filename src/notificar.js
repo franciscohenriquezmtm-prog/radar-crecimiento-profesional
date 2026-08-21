@@ -43,6 +43,18 @@ function comentarioDe(fila) {
   }
 }
 
+/** Las siglas de la ficha, explicadas. En el correo van desplegadas: no hay
+ *  donde hacer clic en la mayoria de los clientes. */
+function siglasHtml(o) {
+  let siglas = [];
+  try { siglas = JSON.parse(o.siglas || '[]'); } catch { siglas = []; }
+  if (!siglas.length) return '';
+  const items = siglas
+    .map((s) => `<li><strong>${escaparHtml(s.sigla)}</strong> ${escaparHtml(s.largo)}${s.es ? ' — ' + escaparHtml(s.es) : ''}</li>`)
+    .join('');
+  return `<ul style="font-size:11.5px;color:#777;margin:0 0 8px;padding-left:18px;line-height:1.5">${items}</ul>`;
+}
+
 /** Lo que la ficha publica sobre plata, textual. */
 function plataHtml(o) {
   let p = {};
@@ -79,6 +91,7 @@ function tarjetaHtml(o) {
     <div style="font-size:12px;color:#666;margin-bottom:6px">${escaparHtml(etiquetas)}</div>
     ${o.contenido || o.descripcion ? `<div style="font-size:12.5px;color:#555;border-left:2px solid #ddd;padding-left:9px;margin:0 0 8px">${escaparHtml(o.contenido || o.descripcion)}</div>` : ''}
     ${plataHtml(o)}
+    ${siglasHtml(o)}
     <div style="font-size:13.5px;color:#222;margin-bottom:8px;line-height:1.5">${escaparHtml(o.resumen_es || recortar(o.resumen || '', 320))}</div>
     <div style="font-size:12px;color:${color}">
       <strong>¿Puedo yo? ${COLOR_SEMAFORO[o.semaforo] || ''}.</strong> ${escaparHtml(recortar(comentarioDe(o), 400))}

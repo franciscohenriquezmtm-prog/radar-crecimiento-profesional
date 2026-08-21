@@ -5,6 +5,7 @@
 
 import { pedir } from './http.js';
 import { aTextoPlano, decodificarHtml, recortar, urlCanonica, normalizar } from './util.js';
+import { SIGLAS } from './siglas.js';
 
 /** Enlaces que aparecen en todos los sitios y nunca son una oportunidad. */
 const RUIDO = [
@@ -134,6 +135,24 @@ export async function leerHtml(url, opciones = {}) {
 
 // ── Sitemap ──────────────────────────────────────────────────
 
+/**
+ * Titulo legible a partir de la direccion.
+ *
+ * Un sitemap no trae titulos, solo direcciones, asi que el nombre sale del
+ * ultimo trozo de la ruta. Las siglas se devuelven a mayusculas con el glosario:
+ * sin eso quedaba "Advanced imrt for radiation therapists" en vez de IMRT.
+ */
+function tituloDesdeSlug(slug) {
+  return slug
+    .split(' ')
+    .map((palabra, i) => {
+      const mayus = palabra.toUpperCase();
+      if (SIGLAS[mayus]) return mayus;
+      return i === 0 ? palabra.charAt(0).toUpperCase() + palabra.slice(1) : palabra;
+    })
+    .join(' ');
+}
+
 export async function leerSitemap(url, opciones = {}) {
   const r = await pedir(url, { aceptar: 'application/xml,text/xml,*/*' });
   if (!r.ok) return { items: [], error: r.error };
@@ -151,7 +170,7 @@ export async function leerSitemap(url, opciones = {}) {
       .replace(/\.\w+$/, '')
       .trim();
     if (slug.length < 12) continue;
-    items.push({ titulo: slug.charAt(0).toUpperCase() + slug.slice(1), url: abs, resumen: '', fecha: lastmod });
+    items.push({ titulo: tituloDesdeSlug(slug), url: abs, resumen: '', fecha: lastmod });
   }
   items.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
   return { items: items.slice(0, opciones.maxItems || 60), error: items.length ? null : 'sitemap sin direcciones que calcen' };

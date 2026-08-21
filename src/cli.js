@@ -98,6 +98,7 @@ async function main() {
       const ex = await import('./extraer.js');
       const { publicoDe, publicoEnFrasesRelevantes, resumirEnEspanol } = await import('./resumir.js');
       const { datosDeDinero, frasesDeContenido, fusionarDinero } = await import('./contenido.js');
+      const { siglasEn } = await import('./siglas.js');
       const filas = db.listar({ limite: 20000, soloAbiertas: false, historico: 'ambos', pista: 'ambos' });
       let n = 0;
       let borradas = 0;
@@ -127,8 +128,9 @@ async function main() {
 
         // El idioma tambien se corrige desde el catalogo al reprocesar.
         const idioma = fuente?.idioma || f.idioma;
-        const historico = esArchivoHistorico(f.titulo) || ex.pareceRetrospectiva(f.titulo);
         const pista = String(f.url || '').includes('news.google');
+        const retro = ex.pareceRetrospectiva(f.titulo);
+        const historico = !pista && (esArchivoHistorico(f.titulo) || retro);
         const anuncio = pista && ex.anunciaUnaOportunidad(corto);
         // Se recalcula siempre desde el texto guardado: si se reciclara lo que
         // ya estaba, las mejoras al lector no llegarian nunca a las fichas viejas.
@@ -139,7 +141,8 @@ async function main() {
         // conservan y se les suma lo que aporte el texto.
         let guardado = null;
         try { guardado = f.dinero ? JSON.parse(f.dinero) : null; } catch { guardado = null; }
-        const dinero = fusionarDinero(guardado, material ? datosDeDinero(material) : null);
+        const dinero = pista ? { montos: [], frases: [] } : fusionarDinero(guardado, material ? datosDeDinero(material) : null);
+        const siglas = siglasEn([f.titulo, f.resumen, f.descripcion, contenido].filter(Boolean).join(' '));
         const eleg = evaluar({
           texto: largo, idioma, modalidad: f.modalidad, costo: f.costo,
           financiamiento: Boolean(f.financiamiento), tipo,
@@ -162,11 +165,12 @@ async function main() {
         const descripcion = recortar(f.descripcion || frasesQueDescriben(f.resumen || '') || frasesQueDescriben(f.texto || ''), 420);
         db.db.prepare(`UPDATE oportunidades SET tipo=?, areas=?, semaforo=?, elegibilidad=?, puntaje=?,
                        puntaje_detalle=?, resumen=?, resumen_es=?, publico=?, idioma=?, descripcion=?, historico=?,
-                       contenido=?, dinero=?, pista=?, anuncio=? WHERE id=?`)
+                       contenido=?, dinero=?, pista=?, anuncio=?, siglas=?, retro=? WHERE id=?`)
           .run(tipo, JSON.stringify(areas), eleg.semaforo, JSON.stringify(eleg), puntaje, JSON.stringify(detalle),
                recortar(limpiarResumen(f.resumen || f.texto || '', f.titulo), 700),
                resumenEs, JSON.stringify(publico), idioma, descripcion, historico ? 1 : 0,
-               contenido, JSON.stringify(dinero), pista ? 1 : 0, anuncio ? 1 : 0, f.id);
+               contenido, JSON.stringify(dinero), pista ? 1 : 0, anuncio ? 1 : 0,
+               JSON.stringify(siglas), retro ? 1 : 0, f.id);
         n++;
       }
       log.info(`${n} fichas reclasificadas con los pesos actuales de config.json`);

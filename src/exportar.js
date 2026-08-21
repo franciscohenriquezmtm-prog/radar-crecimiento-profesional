@@ -85,12 +85,18 @@ function aJson(fila) {
     tipo: etiquetaTipo(fila.tipo),
     areas: parsear(fila.areas, []),
     publico: parsear(fila.publico, []),
+    sg: parsear(fila.siglas, []).map((s) => ({
+      s: limpiarTexto(s.sigla),
+      l: limpiarTexto(s.largo),
+      e: limpiarTexto(s.es || ''),
+    })),
     f: fila.fecha_limite,
     fc: fila.clase_fecha,
     fe: fila.fecha_estimada ? 1 : 0,
     hist: fila.historico ? 1 : 0,
     pista: fila.pista ? 1 : 0,
     an: fila.anuncio ? 1 : 0,
+    retro: fila.retro ? 1 : 0,
     sem: fila.semaforo,
     com: limpiarTexto(eleg.comentario || ''),
     p: fila.puntaje,
@@ -106,9 +112,15 @@ export function exportar(destino, { fragmento = false } = {}) {
   // Las ediciones pasadas viajan tambien, pero aparte y en menor cantidad: sirven
   // para reconocer que se repite todos los anos y anticipar la proxima vuelta.
   const historicas = db.listar({ limite: 120, soloAbiertas: false, historico: true, orden: 'reciente' });
-  // Pistas de prensa: titulares sin ficha propia. Van pocas y aparte, porque
-  // a veces son el primer aviso de algo que despues se publica formalmente.
-  const pistas = db.listar({ limite: 150, soloAbiertas: true, pista: true, orden: 'puntaje' })
+  // Noticias: titulares sin ficha propia. Se traen por grupo y no por puntaje
+  // global, porque las que ya ocurrieron puntuan bajo a proposito y de otro
+  // modo su categoria llegaba vacia al celular aunque en la base hubiera varias.
+  const pistas = [
+    ...db.listar({ limite: 40, soloAbiertas: true, pista: true, anuncio: true, orden: 'puntaje' }),
+    ...db.listar({ limite: 40, soloAbiertas: false, pista: true, retro: true, orden: 'reciente' }),
+    ...db.listar({ limite: 100, soloAbiertas: true, pista: true, orden: 'puntaje' }),
+  ]
+    .filter((f, i, todas) => todas.findIndex((x) => x.id === f.id) === i)
     .sort((a, b) => (b.anuncio || 0) - (a.anuncio || 0));
   const fichas = [...abiertas.slice(0, MAX_FICHAS), ...historicas, ...pistas].map(aJson);
   const generado = new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -118,6 +130,7 @@ export function exportar(destino, { fragmento = false } = {}) {
     historicas: fichas.filter((f) => f.hist && !f.pista).length,
     pistas: fichas.filter((f) => f.pista).length,
     anuncios: fichas.filter((f) => f.pista && f.an).length,
+    yaPasaron: fichas.filter((f) => f.pista && f.retro && !f.an).length,
     tecnicas: fichas.filter((f) => f.areas.includes('tecnicasEspeciales')).length,
     plata: fichas.filter((f) => f.plata).length,
     gratis: fichas.filter((f) => f.costo === 'gratis' || (['online', 'hibrido'].includes(f.modo) && f.costo !== 'pago')).length,
@@ -192,6 +205,7 @@ function contenidoHtml({ fichas, cuenta, generado }) {
   <button class="chip" data-filtro="historico">Ediciones pasadas <b>${cuenta.historicas}</b></button>
   <button class="chip" data-filtro="pistas">Noticias <b>${cuenta.pistas}</b></button>
   <button class="chip" data-filtro="anuncios">Noticias que anuncian algo <b>${cuenta.anuncios}</b></button>
+  <button class="chip" data-filtro="yapasaron">Noticias de algo que ya paso <b>${cuenta.yaPasaron}</b></button>
 </nav>
 
 <div class="buscador">
@@ -491,6 +505,20 @@ main { padding: 8px 0 0; }
 /* Sin monto publicado, el bloque no se pinta de verde: no hay buena noticia. */
 .plata-bloque.vacia { background: transparent; border: 1px dashed var(--linea); }
 
+/* Las siglas van plegadas: quien ya las sabe no necesita verlas cada vez. */
+.siglas { margin: 0 0 8px; }
+.siglas summary {
+  font-size: 12px;
+  color: var(--acento);
+  cursor: pointer;
+  list-style: none;
+}
+.siglas summary::-webkit-details-marker { display: none; }
+.siglas summary::before { content: '\\203A  '; }
+.siglas[open] summary::before { content: '\\2304  '; }
+.siglas ul { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--tenue); line-height: 1.55; }
+.siglas b { color: var(--tinta); }
+
 .rotulo-textual {
   display: block;
   font-size: 9.5px;
@@ -641,6 +669,7 @@ function pasa(f) {
   if (filtro === 'historico') { if (!f.hist) return false; }
   else if (filtro === 'pistas') { if (!f.pista) return false; }
   else if (filtro === 'anuncios') { if (!f.pista || !f.an) return false; }
+  else if (filtro === 'yapasaron') { if (!f.pista || !f.retro || f.an) return false; }
   else if (f.hist || f.pista) return false;
 
   if (filtro === 'tecnicas' && !f.areas.includes('tecnicasEspeciales')) return false;
@@ -652,14 +681,26 @@ function pasa(f) {
   if (marcas[f.id] === 'descartado' && filtro !== 'guardadas') return false;
 
   if (busqueda) {
-    const heno = (f.t + ' ' + f.r + ' ' + f.d + ' ' + f.c + ' ' + f.o + ' ' + f.publico.join(' ')).toLowerCase();
+    const heno = (f.t + ' ' + f.r + ' ' + f.d + ' ' + f.c + ' ' + f.o + ' ' + f.publico.join(' ') + ' ' + (f.sg || []).map((s) => s.s + ' ' + s.l).join(' ')).toLowerCase();
     if (!busqueda.split(/\\s+/).every((p) => heno.includes(p))) return false;
   }
   return true;
 }
 
+/** Que significa cada sigla de esta ficha. Plegado: quien las sabe no las abre. */
+function bloqueSiglas(f) {
+  const siglas = f.sg || [];
+  if (!siglas.length) return '';
+  const items = siglas
+    .map((s) => '<li><b>' + escapar(s.s) + '</b> ' + escapar(s.l) + (s.e ? ' — ' + escapar(s.e) : '') + '</li>')
+    .join('');
+  return '<details class="siglas"><summary>Que significan las siglas (' + siglas.length + ')</summary><ul>' + items + '</ul></details>';
+}
+
 /** Lo que la ficha publica sobre plata, textual. Si no publica nada, se dice. */
 function bloquePlata(f) {
+  // Una noticia no tiene ficha propia: no hay arancel que leer ni donde buscarlo.
+  if (f.pista) return '';
   const p = f.pl || {};
   const montos = (p.montos || []).length
     ? '<span class="monto">' + (p.montos || []).map(escapar).join(' · ') + '</span>'
@@ -687,6 +728,7 @@ function fila(f) {
   if (f.fe) tags.push('<span class="tag estimada">fecha estimada</span>');
   if (f.hist) tags.push('<span class="tag pasada">edicion pasada</span>');
   if (f.pista && f.an) tags.push('<span class="tag anuncia">noticia: anuncia algo</span>');
+  else if (f.pista && f.retro) tags.push('<span class="tag pasada">noticia: ya ocurrio</span>');
   else if (f.pista) tags.push('<span class="tag pasada">noticia del gremio</span>');
 
   const plazo = d === null
@@ -701,6 +743,7 @@ function fila(f) {
       (f.r ? '<p class="resumen">' + escapar(f.r) + '</p>' : '') +
       (f.c || f.d ? '<p class="textual"><span class="rotulo-textual">Lo que dice la fuente</span>' + escapar(f.c || f.d) + '</p>' : '') +
       bloquePlata(f) +
+      bloqueSiglas(f) +
       '<div class="meta">' + tags.join('') + '</div>' +
       '<p class="semaforo ' + escapar(f.sem) + '"><b>¿Puedo yo? ' + (ETIQUETA_SEM[f.sem] || 'Por revisar') + '.</b> ' + escapar(f.com) + '</p>' +
       '<div class="acciones">' +

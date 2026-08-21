@@ -91,8 +91,18 @@ async function pintarTablero() {
 
 // ── Tarjetas ─────────────────────────────────────────────────
 
+/** El significado de las siglas que aparecen en esta ficha. */
+function bloqueSiglas(o) {
+  const siglas = o.siglas || [];
+  if (!siglas.length) return '';
+  const items = siglas.map((s) => `<li><b>${escapar(s.sigla)}</b> ${escapar(s.largo)}${s.es ? ` — ${escapar(s.es)}` : ''}</li>`).join('');
+  return `<details class="siglas"><summary>Que significan las siglas (${siglas.length})</summary><ul>${items}</ul></details>`;
+}
+
 /** Lo que la ficha publica sobre plata, textual. */
 function bloquePlata(o) {
+  // Una noticia no tiene ficha propia: no hay arancel que leer.
+  if (o.pista) return '';
   const p = o.dinero || {};
   const montos = (p.montos || []).length
     ? `<span class="monto">${(p.montos || []).map(escapar).join(' · ')}</span>`
@@ -139,6 +149,7 @@ function tarjeta(o) {
     ${o.resumen_es ? `<p class="de-que-se-trata">${escapar(o.resumen_es)}</p>` : ''}
     ${o.contenido || o.descripcion ? `<p class="textual"><span class="rotulo-textual">Lo que dice la fuente</span>${escapar(o.contenido || o.descripcion)}</p>` : ''}
     ${bloquePlata(o)}
+    ${bloqueSiglas(o)}
     ${o.resumen ? `<details class="original"><summary>Texto original de la fuente</summary><p>${escapar(o.resumen)}</p></details>` : ''}
     <div class="puedo ${o.semaforo || ''}">
       <b>¿Puedo yo? ${ETIQUETA_SEMAFORO[o.semaforo] || 'Por revisar'}</b>
@@ -181,6 +192,7 @@ function parametros() {
   // pero a veces son el primer aviso de algo que despues se publica formalmente.
   if (estado.atajo === 'pistas') p.set('pista', '1');
   if (estado.atajo === 'anuncios') { p.set('pista', '1'); p.set('anuncio', '1'); }
+  if (estado.atajo === 'yapasaron') { p.set('pista', '1'); p.set('retro', '1'); }
 
   return p.toString();
 }

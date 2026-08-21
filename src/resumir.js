@@ -272,6 +272,7 @@ export function resumirEnEspanol(o) {
   partes.push(primera + '.');
 
   // Lo primero que hay que saber de un archivo es que no esta abierto.
+  // Cada caso tiene su explicacion: mezclarlas era lo que confundia.
   if (o.historico) {
     partes.push('Es el registro de ediciones anteriores, no una convocatoria abierta: sirve para saber que se repite y estar atento a la proxima vuelta.');
   }
@@ -341,7 +342,9 @@ export function resumirEnEspanol(o) {
     partes.push(
       o.anuncio
         ? 'Es una noticia, pero anuncia algo concreto a lo que se puede entrar. El radar solo ve el titular: abre el enlace para la fecha, el costo y como postular.'
-        : 'Es prensa del gremio, no una convocatoria. Queda registrada por si sirve de contexto.'
+        : o.retro
+          ? 'Es una noticia sobre algo que ya ocurrio. No hay nada que postular: queda como contexto de lo que pasa en el area.'
+          : 'Es prensa del gremio, no una convocatoria. Queda registrada por si sirve de contexto.'
     );
   } else if (!o.contenido && !o.descripcion) {
     partes.push('La pagina no entrega texto legible (suele pasar con sitios hechos en javascript): hay que abrirla para ver de que se trata.');

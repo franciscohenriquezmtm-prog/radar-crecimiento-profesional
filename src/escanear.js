@@ -21,6 +21,7 @@ import { puntuar } from './puntuar.js';
 import { oportunidadesSemilla } from './calendario.js';
 import { publicoDe, publicoEnFrasesRelevantes, resumirEnEspanol } from './resumir.js';
 import { datosDeDinero, dineroEnHtml, frasesDeContenido, fusionarDinero, textoPrincipal } from './contenido.js';
+import { siglasEn } from './siglas.js';
 import { aTextoPlano, descripcionDeclarada, frasesQueDescriben, hash, limpiarResumen, log, parecido, recortar, urlCanonica } from './util.js';
 
 const CFG = config.escaneo || {};
@@ -51,13 +52,16 @@ function fichaDesde(item, fuente, textoDetalle, descripcion0 = '', dineroTabla =
   // despues se mira la bajada, y al final el cuerpo, que menciona de todo.
   const tipo = tipoDe(titulo) || tipoDe(textoCorto) || tipoDe(textoLargo) || fuente.tipo || null;
 
-  // Archivo de ediciones pasadas: se guarda, pero aparte.
-  const historico = esArchivoHistorico(titulo) || pareceRetrospectiva(titulo);
+  // Un titular de prensa nunca es "archivo de ediciones pasadas": son dos
+  // categorias distintas y mezclarlas confunde.
+  const esPista = String(item.url || '').includes('news.google');
+  const retro = pareceRetrospectiva(titulo);
+  const historico = !esPista && (esArchivoHistorico(titulo) || retro);
 
   // Pista de prensa: llego por la busqueda de noticias, no por la pagina de la
   // institucion. El radar solo ve el titular, asi que no puede competir de igual
   // a igual con una ficha que si publica su programa.
-  const pista = String(item.url || '').includes('news.google');
+  const pista = esPista;
   // Una noticia que anuncia un curso o una beca vale mucho mas que una cronica
   // del gremio, aunque las dos lleguen por el mismo camino.
   const anuncio = pista && anunciaUnaOportunidad(textoCorto);
@@ -139,7 +143,16 @@ function fichaDesde(item, fuente, textoDetalle, descripcion0 = '', dineroTabla =
   // De que trata y cuanto cuesta, en palabras de la fuente. Cuando la pagina no
   // lo publica quedan vacios, y el resumen lo dice explicitamente.
   const contenido = frasesDeContenido(textoDetalle || item.resumen || '', 420);
-  const dinero = fusionarDinero(dineroTabla, datosDeDinero(textoDetalle || item.resumen || ''));
+
+  // Las siglas que aparecen en lo que se va a mostrar. Se buscan sobre el texto
+  // visible, no sobre la pagina entera: explicar una sigla que no esta a la
+  // vista solo agrega ruido.
+  const siglas = siglasEn([titulo, item.resumen, descripcion, contenido].filter(Boolean).join(' '));
+  // Sin ficha propia no hay arancel que leer: lo unico que habria es el propio
+  // titular, y mostrarlo como si fuera el costo es peor que no mostrar nada.
+  const dinero = esPista
+    ? { montos: [], frases: [] }
+    : fusionarDinero(dineroTabla, datosDeDinero(textoDetalle || item.resumen || ''));
 
   const ficha = {
     id: identidadDe(item),
@@ -149,6 +162,7 @@ function fichaDesde(item, fuente, textoDetalle, descripcion0 = '', dineroTabla =
     descripcion,
     contenido,
     dinero,
+    siglas,
     texto: recortar(textoDetalle || item.resumen || '', 4000),
     fuente_id: fuente.id,
     fuente_nombre: fuente.nombre,
@@ -176,6 +190,7 @@ function fichaDesde(item, fuente, textoDetalle, descripcion0 = '', dineroTabla =
     historico: historico ? 1 : 0,
     pista: pista ? 1 : 0,
     anuncio: anuncio ? 1 : 0,
+    retro: retro ? 1 : 0,
     publico,
   };
 
