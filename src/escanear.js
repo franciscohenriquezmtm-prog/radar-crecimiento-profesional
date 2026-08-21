@@ -5,7 +5,9 @@
 //   - Se prueban todas las estrategias de una fuente hasta que una entregue algo.
 //   - Nada se descarta por elegibilidad: solo se comenta.
 
-import { config, fuentesActivas } from './config.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import { config, DIR_DATOS, fuentesActivas } from './config.js';
 import { ejecutarEstrategia } from './lectores.js';
 import { pedir } from './http.js';
 import * as db from './db.js';
@@ -287,7 +289,32 @@ function limpiarSemillasDuplicadas() {
   return quitadas;
 }
 
+/**
+ * Copia de seguridad antes de tocar nada.
+ *
+ * Un escaneo escribe, borra vencidas y reclasifica. Si algo sale mal a medias,
+ * conviene poder volver atras. Se guarda la copia del escaneo anterior en
+ * datos/radar-respaldo.db: si un dia el panel amanece raro, basta con
+ * renombrarla a radar.db.
+ *
+ * Se usa VACUUM INTO y no una copia del archivo: con el modo WAL, copiar el
+ * .db a secas puede dejar afuera lo ultimo escrito.
+ */
+function respaldarBase() {
+  try {
+    const cuantas = db.db.prepare('SELECT COUNT(*) n FROM oportunidades').get().n;
+    if (!cuantas) return;
+    const destino = path.join(DIR_DATOS, 'radar-respaldo.db');
+    fs.rmSync(destino, { force: true });
+    db.db.exec(`VACUUM INTO '${destino.replace(/\\/g, '/').replace(/'/g, "''")}'`);
+    log.detalle(`respaldo de ${cuantas} fichas en radar-respaldo.db`);
+  } catch (e) {
+    log.aviso(`no se pudo respaldar la base: ${e.message}`);
+  }
+}
+
 export async function escanear({ profundo = false } = {}) {
+  respaldarBase();
   const inicio = Date.now();
   const limiteMs = (CFG.maxMinutosPorEjecucion ?? 35) * 60000;
   const presupuesto = { agotado: () => Date.now() - inicio > limiteMs };

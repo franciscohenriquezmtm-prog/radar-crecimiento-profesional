@@ -45,6 +45,7 @@ jobs:
           node-version: '22'
 
       - name: Recuperar la base de la ejecucion anterior
+        id: recuperar
         env:
           REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         run: |
@@ -53,8 +54,18 @@ jobs:
             cp /tmp/historial/radar.db datos/radar.db 2>/dev/null || true
             echo "Base recuperada: $(ls -la datos || true)"
           else
-            echo "Primera ejecucion: todavia no hay historial."
+            echo "No hay historial todavia (primera ejecucion) o no se pudo clonar."
           fi
+
+          # Cuantas convocatorias traiamos. Es la referencia para decidir despues
+          # si lo que quedo se puede guardar sin perder nada.
+          if [ -f datos/radar.db ]; then
+            ANTES=$(node src/cli.js contar 2>/dev/null || echo 0)
+          else
+            ANTES=0
+          fi
+          echo "antes=$ANTES" >> "$GITHUB_OUTPUT"
+          echo "Convocatorias al empezar: $ANTES"
 
       - name: Escanear y avisar
         env:
@@ -116,8 +127,29 @@ jobs:
         if: always()
         env:
           REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          ANTES: ${{ steps.recuperar.outputs.antes }}
         run: |
           if [ ! -f datos/radar.db ]; then echo "No hay base que guardar."; exit 0; fi
+
+          # ── Seguro contra perdida de historial ──────────────────────
+          # La rama de datos se guarda con --force y un solo commit, asi que lo
+          # que se sube reemplaza lo anterior. Si la recuperacion fallo, el
+          # escaneo habria partido de una base vacia y este paso borraria todo
+          # el historial. Antes de subir se compara: si el numero de
+          # convocatorias cayo mas de un 20%, no se guarda nada y la ejecucion
+          # queda marcada como fallida para que se note.
+          AHORA=$(node src/cli.js contar 2>/dev/null || echo 0)
+          ANTES=${ANTES:-0}
+          echo "Convocatorias: antes $ANTES, ahora $AHORA"
+
+          if [ "$ANTES" -gt 0 ]; then
+            MINIMO=$(( ANTES * 80 / 100 ))
+            if [ "$AHORA" -lt "$MINIMO" ]; then
+              echo "::error::La base bajo de $ANTES a $AHORA convocatorias (minimo aceptable: $MINIMO)."
+              echo "::error::No se guarda nada: la rama datos conserva la version anterior intacta."
+              exit 1
+            fi
+          fi
           rm -rf /tmp/publicar && mkdir -p /tmp/publicar
           cp datos/radar.db /tmp/publicar/radar.db
           # index.html en la raiz de la rama: si activas GitHub Pages sobre la

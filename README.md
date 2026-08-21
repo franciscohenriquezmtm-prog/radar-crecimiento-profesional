@@ -400,6 +400,28 @@ pestaña **Salud de fuentes** y el comando `npm run diagnostico`: te dicen exact
 dejó de responder y con qué error. Arreglar una fuente es cambiar una dirección en
 `fuentes/catalogo.json`, no tocar código.
 
+## Qué pasa si algo falla
+
+**La app publicada es una foto, no la bodega.** Cada día se dibuja de nuevo desde la
+base de datos: reemplazarla no borra ninguna convocatoria, igual que botar una impresión
+no borra el documento.
+
+Las convocatorias viven en `radar.db`, que se acumula, y hay tres seguros:
+
+1. **Antes de cada escaneo** se guarda `datos/radar-respaldo.db` con el estado anterior.
+   Si un día el panel amanece raro, renómbralo a `radar.db` y vuelves atrás.
+2. **En la nube, antes de guardar**, el workflow cuenta las convocatorias y las compara
+   con las que había al empezar. Si cayeron más de un 20%, no guarda nada y marca la
+   ejecución como fallida: la rama `datos` conserva la versión anterior intacta.
+   Sin ese chequeo, un fallo al recuperar el historial habría hecho que el escaneo
+   partiera de cero y pisara todo con una base vacía.
+3. **Tu copia local** es independiente de la de la nube, y `sincronizar` funde sin
+   borrar: nunca elimina lo que solo existe en tu computador.
+
+Lo único que el radar sí borra por su cuenta son las convocatorias cuyo plazo venció
+hace más de 120 días y que nunca marcaste (`diasConservarCerradas` en `config.json`).
+Lo que marcaste como guardado, postulado o descartado no se borra nunca.
+
 ## Lo que este radar no puede hacer
 
 Vale la pena decirlo derecho:

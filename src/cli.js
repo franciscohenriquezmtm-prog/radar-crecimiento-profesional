@@ -184,6 +184,12 @@ async function main() {
       break;
     }
 
+    case 'contar': {
+      // Imprime solo el numero, para que el workflow pueda compararlo.
+      console.log(db.db.prepare('SELECT COUNT(*) n FROM oportunidades').get().n);
+      break;
+    }
+
     case 'diagnostico': {
       const { diagnostico } = await import('./diagnostico.js');
       await diagnostico(sueltos[0]);
