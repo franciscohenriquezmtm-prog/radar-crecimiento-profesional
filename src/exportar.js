@@ -175,7 +175,10 @@ function contenidoHtml({ fichas, cuenta, generado }) {
     <h1>Radar de crecimiento</h1>
     <p class="fecha">Lista al ${escaparHtml(generado)}</p>
   </div>
-  <div class="conteo"><span class="cifra" id="visibles">${cuenta.total}</span><span class="rotulo">a la vista</span></div>
+  <div class="derecha">
+    <button id="tema" class="boton-tema" type="button" title="Cambiar tema">auto</button>
+    <div class="conteo"><span class="cifra" id="visibles">${cuenta.total}</span><span class="rotulo">a la vista</span></div>
+  </div>
 </header>
 
 <nav class="filtros" aria-label="Filtros rapidos">
@@ -193,6 +196,10 @@ function contenidoHtml({ fichas, cuenta, generado }) {
 
 <div class="buscador">
   <input type="search" id="buscar" placeholder="Buscar: braquiterapia, beca, OIEA..." autocomplete="off" spellcheck="false">
+</div>
+
+<div class="orden">
+  <button id="urgencia" class="boton-orden" type="button">Cierre mas urgente arriba</button>
 </div>
 
 <main id="lista"></main>
@@ -337,7 +344,20 @@ body {
   letter-spacing: .01em;
 }
 .fecha { margin: 2px 0 0; font-size: 12px; opacity: .78; }
+.derecha { display: flex; align-items: center; gap: 10px; }
 .conteo { text-align: right; line-height: 1; }
+
+/* Interruptor de tema: texto corto, sin iconos externos que cargar. */
+.boton-tema {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  border-radius: 20px;
+  padding: 7px 11px;
+  font: 500 12px/1 "IBM Plex Sans", sans-serif;
+  cursor: pointer;
+}
 .cifra {
   display: block;
   font: 600 22px/1 "IBM Plex Mono", ui-monospace, monospace;
@@ -379,6 +399,26 @@ body {
 }
 .chip.activo b { opacity: .85; }
 .chip:focus-visible, input:focus-visible, .marca-btn:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.orden { padding: 10px 16px 0; }
+/* El orden convive con la categoria elegida: no la reemplaza, la reordena. */
+.boton-orden {
+  width: 100%;
+  border: 1px dashed var(--linea);
+  background: transparent;
+  color: var(--tenue);
+  border-radius: 3px;
+  padding: 10px;
+  font: 500 13px/1 "IBM Plex Sans", sans-serif;
+  cursor: pointer;
+}
+.boton-orden.activo {
+  border-style: solid;
+  border-color: var(--tibio);
+  background: color-mix(in srgb, var(--tibio) 12%, transparent);
+  color: var(--tibio);
+  font-weight: 600;
+}
 
 .buscador { padding: 12px 16px 0; }
 #buscar {
@@ -519,6 +559,34 @@ footer p { margin: 0 0 8px; max-width: 62ch; }
 
 function guion() {
   return `
+// ── Tema: sistema, claro u oscuro ────────────────────────────
+// Sin marca en el documento manda el sistema; con data-theme manda la eleccion,
+// en los dos sentidos. Queda guardada en este telefono y no viaja a ninguna parte.
+const TEMAS = ['auto', 'claro', 'oscuro'];
+const NOMBRE_TEMA = { auto: 'auto', claro: 'claro', oscuro: 'oscuro' };
+
+function leerTema() {
+  try { return localStorage.getItem('radar-tema') || 'auto'; } catch { return 'auto'; }
+}
+
+function aplicarTema(tema) {
+  const raiz = document.documentElement;
+  if (tema === 'auto') raiz.removeAttribute('data-theme');
+  else raiz.setAttribute('data-theme', tema === 'oscuro' ? 'dark' : 'light');
+  const boton = document.getElementById('tema');
+  if (boton) {
+    boton.textContent = NOMBRE_TEMA[tema];
+    boton.setAttribute('aria-label', 'Tema: ' + tema);
+  }
+  try { localStorage.setItem('radar-tema', tema); } catch { /* navegacion privada */ }
+}
+
+aplicarTema(leerTema());
+
+document.getElementById('tema')?.addEventListener('click', () => {
+  aplicarTema(TEMAS[(TEMAS.indexOf(leerTema()) + 1) % TEMAS.length]);
+});
+
 const lista = document.getElementById('lista');
 const vacio = document.getElementById('vacio');
 const visibles = document.getElementById('visibles');
@@ -532,6 +600,9 @@ const guardarMarcas = () => { try { localStorage.setItem(LLAVE, JSON.stringify(m
 
 let filtro = 'todo';
 let busqueda = '';
+// El orden convive con la categoria: se puede pedir "tecnicas especiales" y ver
+// primero las que cierran antes.
+let porUrgencia = (() => { try { return localStorage.getItem('radar-urgencia') === '1'; } catch { return false; } })();
 
 const dias = (iso) => iso ? Math.round((new Date(iso + 'T12:00:00Z') - Date.now()) / 86400000) : null;
 
@@ -643,11 +714,32 @@ function fila(f) {
 
 function pintar() {
   const elegidas = FICHAS.filter(pasa);
+  if (porUrgencia) {
+    // Las que tienen plazo primero, de la mas urgente a la mas lejana; las que
+    // no tienen fecha van al final, ordenadas por puntaje.
+    elegidas.sort((a, b) => {
+      const da = dias(a.f);
+      const db = dias(b.f);
+      if (da === null && db === null) return b.p - a.p;
+      if (da === null) return 1;
+      if (db === null) return -1;
+      return da - db;
+    });
+  }
   lista.innerHTML = elegidas.map(fila).join('');
   visibles.textContent = elegidas.length;
   vacio.hidden = elegidas.length > 0;
   nGuardadas.textContent = Object.values(marcas).filter((m) => m === 'guardado').length;
 }
+
+document.getElementById('urgencia').addEventListener('click', () => {
+  porUrgencia = !porUrgencia;
+  document.getElementById('urgencia').classList.toggle('activo', porUrgencia);
+  try { localStorage.setItem('radar-urgencia', porUrgencia ? '1' : '0'); } catch {}
+  window.scrollTo({ top: 0 });
+  pintar();
+});
+document.getElementById('urgencia').classList.toggle('activo', porUrgencia);
 
 document.querySelectorAll('.chip').forEach((c) => {
   c.addEventListener('click', () => {

@@ -1,0 +1,7 @@
+# Saltos de linea LF en todo el proyecto.
+#
+# Sin esto, git convierte a CRLF al hacer checkout en Windows y cualquier
+# herramienta que busque texto de varias lineas deja de calzar.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.ps1 text eol=crlf

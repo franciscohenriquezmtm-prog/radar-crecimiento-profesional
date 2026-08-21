@@ -3,7 +3,33 @@
 const $ = (s) => document.querySelector(s);
 const contenido = $('#contenido');
 
-let estado = { vista: 'lista', catalogos: null, atajo: 'todo' };
+let estado = { vista: 'lista', catalogos: null, atajo: 'todo', porUrgencia: false };
+
+// ── Tema: sistema, claro u oscuro ────────────────────────────
+// Sin marca en el documento manda el sistema; con data-theme manda la eleccion,
+// en los dos sentidos. Queda guardada en este aparato y no viaja a ninguna parte.
+const TEMAS = ['sistema', 'claro', 'oscuro'];
+const NOMBRE_TEMA = { sistema: 'Tema: sistema', claro: 'Tema: claro', oscuro: 'Tema: oscuro' };
+
+function leerTema() {
+  try { return localStorage.getItem('radar-tema') || 'sistema'; } catch { return 'sistema'; }
+}
+
+function aplicarTema(tema) {
+  const raiz = document.documentElement;
+  if (tema === 'sistema') raiz.removeAttribute('data-theme');
+  else raiz.setAttribute('data-theme', tema === 'oscuro' ? 'dark' : 'light');
+  const boton = document.getElementById('tema');
+  if (boton) boton.textContent = NOMBRE_TEMA[tema];
+  try { localStorage.setItem('radar-tema', tema); } catch { /* navegacion privada */ }
+}
+
+aplicarTema(leerTema());
+
+document.getElementById('tema')?.addEventListener('click', () => {
+  aplicarTema(TEMAS[(TEMAS.indexOf(leerTema()) + 1) % TEMAS.length]);
+});
+
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 const DIAS = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
@@ -146,6 +172,8 @@ function parametros() {
   if (estado.atajo === 'gratis') p.set('gratis', '1');
   if (estado.atajo === 'paraMi') p.set('paraMi', '1');
   if (estado.atajo === 'pronto') { p.set('cierraEnDias', '45'); p.set('orden', 'plazo'); }
+  // Manda por sobre el orden que pida el atajo o el selector.
+  if (estado.porUrgencia) p.set('orden', 'plazo');
   // El archivo de ediciones pasadas: no son convocatorias abiertas, pero
   // muestran que se repite y cuando, que es como uno se adelanta al proximo ciclo.
   if (estado.atajo === 'historico') { p.set('historico', '1'); p.set('abiertas', '0'); }
@@ -232,9 +260,15 @@ document.querySelectorAll('.pestana').forEach((b) => {
 
 $('#filtros').addEventListener('change', pintar);
 
-document.querySelectorAll('.atajo').forEach((b) => {
+document.getElementById('urgencia')?.addEventListener('click', () => {
+  estado.porUrgencia = !estado.porUrgencia;
+  document.getElementById('urgencia').classList.toggle('activo', estado.porUrgencia);
+  pintar();
+});
+
+document.querySelectorAll('.atajo:not(.orden)').forEach((b) => {
   b.addEventListener('click', () => {
-    document.querySelectorAll('.atajo').forEach((x) => x.classList.remove('activo'));
+    document.querySelectorAll('.atajo:not(.orden)').forEach((x) => x.classList.remove('activo'));
     b.classList.add('activo');
     estado.atajo = b.dataset.atajo;
     // Un atajo manda por sobre el selector de area: si eliges "Tecnicas

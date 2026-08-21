@@ -1,3 +1,16 @@
+/* Panel del radar.
+ *
+ * Todo el color pasa por variables. Asi el modo oscuro se resuelve en un solo
+ * lugar —redefiniendo las variables— y no repitiendo reglas componente por
+ * componente, que es donde se cuelan los descuidos: un fondo que cambia y el
+ * texto encima que no.
+ *
+ * Tres estados, en este orden de prioridad:
+ *   1. sin marca             -> sigue al sistema
+ *   2. [data-theme="dark"]   -> oscuro, aunque el sistema este en claro
+ *   3. [data-theme="light"]  -> claro, aunque el sistema este en oscuro
+ */
+
 :root {
   --fondo: #f6f7f9;
   --papel: #ffffff;
@@ -8,6 +21,71 @@
   --verde: #1d7a4c;
   --ambar: #a06a00;
   --rojo: #a33333;
+
+  --cabecera: #14375e;
+  --boton-tinta: #14375e;
+  --chip-fondo: #eef1f5;
+  --chip-tinta: #445566;
+  --verde-suave: #e7f4ec;
+  --azul-suave: #e8eefb;
+  --ambar-suave: #fdf5e5;
+  --rojo-suave: #fbeeee;
+  --neutro-suave: #f4f6f8;
+  --verde-texto: #14562f;
+  --ambar-texto: #6f4a00;
+  --rojo-texto: #7d2222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fondo: #14181d;
+    --papel: #1c2229;
+    --tinta: #e7ebf0;
+    --suave: #93a0ae;
+    --linea: #2b333c;
+    --azul: #6ea8e6;
+    --verde: #5fc394;
+    --ambar: #d9ad5c;
+    --rojo: #e8907f;
+
+    --cabecera: #101820;
+    --boton-tinta: #0d1319;
+    --chip-fondo: #26303a;
+    --chip-tinta: #c3cedb;
+    --verde-suave: #16281f;
+    --azul-suave: #1b2636;
+    --ambar-suave: #2b2417;
+    --rojo-suave: #2c1c1c;
+    --neutro-suave: #222a33;
+    --verde-texto: #8fd7ac;
+    --ambar-texto: #e5c37f;
+    --rojo-texto: #e79a9a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --fondo: #14181d;
+  --papel: #1c2229;
+  --tinta: #e7ebf0;
+  --suave: #93a0ae;
+  --linea: #2b333c;
+  --azul: #6ea8e6;
+  --verde: #5fc394;
+  --ambar: #d9ad5c;
+  --rojo: #e8907f;
+
+  --cabecera: #101820;
+  --boton-tinta: #0d1319;
+  --chip-fondo: #26303a;
+  --chip-tinta: #c3cedb;
+  --verde-suave: #16281f;
+  --azul-suave: #1b2636;
+  --ambar-suave: #2b2417;
+  --rojo-suave: #2c1c1c;
+  --neutro-suave: #222a33;
+  --verde-texto: #8fd7ac;
+  --ambar-texto: #e5c37f;
+  --rojo-texto: #e79a9a;
 }
 
 * { box-sizing: border-box; }
@@ -25,16 +103,17 @@ body {
   justify-content: space-between;
   gap: 16px;
   padding: 20px 28px;
-  background: var(--azul);
+  background: var(--cabecera);
   color: #fff;
   flex-wrap: wrap;
 }
 .cabecera h1 { margin: 0; font-size: 20px; font-weight: 650; }
 .sub { margin: 2px 0 0; font-size: 13px; opacity: .8; }
+.acciones { display: flex; align-items: center; gap: 10px; }
 
 .boton {
   background: #fff;
-  color: var(--azul);
+  color: var(--boton-tinta);
   border: none;
   border-radius: 6px;
   padding: 9px 16px;
@@ -43,6 +122,19 @@ body {
   cursor: pointer;
 }
 .boton:disabled { opacity: .55; cursor: default; }
+
+/* Interruptor de tema: una palabra corta, sin iconos externos que cargar. */
+.boton-tema {
+  border: 1px solid rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.boton-tema:hover { background: rgba(255, 255, 255, .22); }
 
 .tablero {
   display: grid;
@@ -72,12 +164,7 @@ body {
 }
 .pestana.activa { color: var(--azul); border-bottom-color: var(--azul); font-weight: 600; }
 
-.atajos {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  padding: 14px 28px 0;
-}
+.atajos { display: flex; gap: 6px; flex-wrap: wrap; padding: 14px 28px 0; }
 .atajo {
   border: 1px solid var(--linea);
   background: var(--papel);
@@ -88,7 +175,10 @@ body {
   cursor: pointer;
 }
 .atajo:hover { border-color: var(--azul); color: var(--azul); }
-.atajo.activo { background: var(--azul); color: #fff; border-color: var(--azul); font-weight: 600; }
+.atajo.activo { background: var(--azul); color: var(--papel); border-color: var(--azul); font-weight: 600; }
+/* El orden no es una categoria: se separa para que se note que convive con ellas. */
+.atajo.orden { margin-left: auto; border-style: dashed; }
+.atajo.orden.activo { border-style: solid; background: var(--ambar); border-color: var(--ambar); color: var(--papel); }
 
 .filtros {
   display: flex;
@@ -135,41 +225,41 @@ main { padding: 0 28px 40px; }
 .etiquetas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 .etiqueta {
   font-size: 11px;
-  background: #eef1f5;
-  color: #445;
+  background: var(--chip-fondo);
+  color: var(--chip-tinta);
   border-radius: 20px;
   padding: 3px 9px;
 }
-.etiqueta.dinero { background: #e7f4ec; color: var(--verde); }
-.etiqueta.online { background: #e8eefb; color: var(--azul); }
+.etiqueta.dinero { background: var(--verde-suave); color: var(--verde); }
+.etiqueta.online { background: var(--azul-suave); color: var(--azul); }
+.etiqueta.para-mi { background: var(--verde-suave); color: var(--verde); font-weight: 600; }
 
-.resumen { font-size: 13.5px; color: #333; margin: 6px 0; }
+.resumen { font-size: 13.5px; color: var(--tinta); margin: 6px 0; }
 
 /* El resumen en espanol: lo primero que se lee de cada tarjeta. */
 .de-que-se-trata { font-size: 14px; color: var(--tinta); margin: 8px 0 6px; line-height: 1.5; }
 
-/* Las palabras textuales de la fuente. Van despues del resumen en espanol y se
-   distinguen de el a proposito: esto no lo escribio el radar. */
+/* Las palabras textuales de la fuente, distinguidas del resumen del radar. */
 .textual {
   margin: 0 0 8px;
   padding-left: 10px;
   border-left: 2px solid var(--linea);
   font-size: 13px;
   line-height: 1.5;
-  color: var(--tenue);
+  color: var(--suave);
 }
 .plata-bloque {
   margin: 0 0 8px;
   padding: 8px 10px;
-  background: #eef6f1;
+  background: var(--verde-suave);
   border-radius: 4px;
   font-size: 13px;
   line-height: 1.5;
 }
+.plata-bloque.vacia { background: transparent; border: 1px dashed var(--linea); }
 .monto { font-weight: 700; color: var(--verde); margin-right: 8px; }
 .cita-plata { color: var(--suave); }
 .cita-plata.sin-dato { font-style: italic; }
-.plata-bloque.vacia { background: transparent; border: 1px dashed var(--linea); }
 
 .rotulo-textual {
   display: block;
@@ -185,18 +275,17 @@ main { padding: 0 28px 40px; }
 .original summary::before { content: '\203A  '; }
 .original[open] summary::before { content: '\2304  '; }
 .original p { font-size: 12.5px; color: var(--suave); margin: 6px 0 0; }
-.etiqueta.para-mi { background: #e7f4ec; color: var(--verde); font-weight: 600; }
 
 .puedo {
   font-size: 13px;
   border-radius: 6px;
   padding: 8px 10px;
   margin: 8px 0 4px;
-  background: #f4f6f8;
+  background: var(--neutro-suave);
 }
-.puedo.verde { background: #edf7f1; color: #14562f; }
-.puedo.amarillo { background: #fdf5e5; color: #6f4a00; }
-.puedo.rojo { background: #fbeeee; color: #7d2222; }
+.puedo.verde { background: var(--verde-suave); color: var(--verde-texto); }
+.puedo.amarillo { background: var(--ambar-suave); color: var(--ambar-texto); }
+.puedo.rojo { background: var(--rojo-suave); color: var(--rojo-texto); }
 .puedo b { display: block; margin-bottom: 2px; }
 
 .requisitos { font-size: 12px; color: var(--suave); margin: 4px 0 0; padding-left: 18px; }
@@ -212,13 +301,13 @@ main { padding: 0 28px 40px; }
   color: var(--suave);
 }
 .mini:hover { border-color: var(--azul); color: var(--azul); }
-.mini.activo { background: var(--azul); color: #fff; border-color: var(--azul); }
-.puntaje { margin-left: auto; font-size: 11px; color: #aab; }
+.mini.activo { background: var(--azul); color: var(--papel); border-color: var(--azul); }
+.puntaje { margin-left: auto; font-size: 11px; color: var(--suave); opacity: .7; }
 
 .mes { margin: 26px 0 10px; font-size: 15px; font-weight: 650; color: var(--azul); border-bottom: 1px solid var(--linea); padding-bottom: 6px; }
 
 table.salud { width: 100%; border-collapse: collapse; background: var(--papel); font-size: 13px; }
-table.salud th, table.salud td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+table.salud th, table.salud td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--linea); color: var(--tinta); }
 table.salud th { font-size: 11px; text-transform: uppercase; color: var(--suave); letter-spacing: .04em; }
 .punto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
 .punto.ok { background: var(--verde); }
@@ -227,6 +316,8 @@ table.salud th { font-size: 11px; text-transform: uppercase; color: var(--suave)
 
 .vacio { color: var(--suave); padding: 30px 0; text-align: center; }
 .pie { padding: 20px 28px 40px; font-size: 12px; color: var(--suave); max-width: 800px; }
+
+:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
 
 /* ── En el celular ──────────────────────────────────────────
    Menos margenes, filtros a lo ancho y botones grandes para el dedo. */
@@ -243,9 +334,9 @@ table.salud th { font-size: 11px; text-transform: uppercase; color: var(--suave)
   .dato .n { font-size: 19px; }
   .dato .t { font-size: 10px; letter-spacing: 0; }
   .pestanas { padding: 10px 14px 0; }
+  .pestana { padding: 8px 10px; font-size: 13px; }
   .atajos { padding: 12px 14px 0; gap: 5px; }
   .atajo { padding: 8px 12px; font-size: 12.5px; }
-  .pestana { padding: 8px 10px; font-size: 13px; }
   .filtros { padding: 10px 14px; gap: 6px; }
   .filtros input[type=search] { min-width: 100%; }
   .filtros select { flex: 1 1 46%; font-size: 13px; }
@@ -258,22 +349,6 @@ table.salud th { font-size: 11px; text-transform: uppercase; color: var(--suave)
   .pie { padding: 16px 14px 30px; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fondo: #14181d;
-    --papel: #1c2229;
-    --tinta: #e7ebf0;
-    --suave: #93a0ae;
-    --linea: #2b333c;
-    --azul: #6ea8e6;
-  }
-  .cabecera { background: #101820; }
-  .boton { background: #6ea8e6; color: #0d1319; }
-  .etiqueta { background: #26303a; color: #c3cedb; }
-  .puedo { background: #222a33; }
-  .puedo.verde { background: #16281f; color: #8fd7ac; }
-  .puedo.amarillo { background: #2b2417; color: #e5c37f; }
-  .puedo.rojo { background: #2c1c1c; color: #e79a9a; }
-  .plata-bloque { background: #17251e; }
-  .resumen { color: #c9d2dc; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
 }
