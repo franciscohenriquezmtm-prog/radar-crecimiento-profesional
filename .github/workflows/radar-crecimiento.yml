@@ -87,6 +87,29 @@ jobs:
         if: always()
         run: node src/cli.js exportar sitio/index.html
 
+      # Publicar la app en GitHub Pages.
+      #
+      # Va en su propia rama y siempre con un solo commit (--force sobre una
+      # rama huerfana): el archivo pesa cerca de un mega y guardarlo todos los
+      # dias con historial engordaria el repositorio sin ninguna utilidad.
+      - name: Publicar la app en Pages
+        if: always()
+        env:
+          REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          if [ ! -f sitio/index.html ]; then echo "No hay panel que publicar."; exit 0; fi
+          rm -rf /tmp/pages && mkdir -p /tmp/pages
+          cp sitio/index.html /tmp/pages/index.html
+          touch /tmp/pages/.nojekyll
+          cd /tmp/pages
+          git init -q
+          git checkout -q -b gh-pages
+          git config user.name "radar-crecimiento"
+          git config user.email "actions@github.com"
+          git add index.html .nojekyll
+          git commit -q -m "Panel al $(date -u '+%Y-%m-%d')"
+          git push -q --force "$REPO" gh-pages
+
       # Se guarda aunque el escaneo haya fallado a medias: lo ya encontrado
       # no deberia perderse.
       - name: Guardar la base y el panel en la rama datos

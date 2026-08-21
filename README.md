@@ -260,6 +260,42 @@ convocatorias públicas, pero decídelo tú).
 
 ## Instalarlo como app en el celular
 
+**Con datos móviles solo funciona la versión publicada en internet.** La dirección
+`192.168.x.x` es privada: existe únicamente dentro de tu casa, así que desde Entel
+nunca va a responder, por mucho que se abra el firewall. No es un permiso que falte:
+es cómo funcionan las redes privadas.
+
+### La versión que sí funciona en cualquier parte (GitHub Pages)
+
+El repositorio ya está preparado con dos ramas: `main` con el código y `gh-pages`
+con la app lista. Falta subirlo:
+
+1. En github.com, crea un repositorio **público** vacío llamado
+   `radar-crecimiento-profesional` (sin README, sin .gitignore).
+2. En esta carpeta:
+   ```bash
+   git remote add origin https://github.com/franciscohenriquezmtm-prog/radar-crecimiento-profesional.git
+   git push -u origin main
+   git push origin gh-pages
+   ```
+3. En el repositorio: **Settings → Pages → Source: Deploy from a branch →
+   Branch: gh-pages / (root) → Save.**
+4. Al minuto queda en
+   `https://franciscohenriquezmtm-prog.github.io/radar-crecimiento-profesional/`
+
+Esa dirección es HTTPS y pública: abre con datos móviles, en cualquier parte, con el
+computador apagado. Ahí sí, **Compartir → Añadir a pantalla de inicio** la instala
+como app de verdad.
+
+El escaneo diario la regenera y la vuelve a publicar solo, siempre con un único
+commit para que el repositorio no engorde.
+
+Tiene que ser público porque Pages sobre repositorio privado es de pago. Lo que se
+publica son convocatorias públicas; no viaja tu correo, ni tus claves, ni lo que hayas
+marcado en el panel local.
+
+### La versión de la casa (WiFi)
+
 El panel exportado es una **app instalable**: trae icono propio, nombre y se abre a
 pantalla completa, sin barra del navegador.
 
@@ -274,7 +310,7 @@ librerías, porque iOS no acepta SVG para el icono de la pantalla de inicio.
 Esa versión necesita tu computador encendido y el mismo WiFi. Para tenerla siempre,
 hay que publicarla en internet (ver más abajo).
 
-## Abrir el panel en el celular (en la casa)
+### Detalle del panel por WiFi
 
 El panel ya está preparado para el teléfono: la lista, los atajos y los botones se
 adaptan a la pantalla chica.
