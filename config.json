@@ -1,0 +1,136 @@
+{
+  "_comentario": "Radar de crecimiento profesional. Este archivo es el unico que necesitas tocar para cambiar como piensa el radar. No lleva claves ni contrasenas: eso va en .env. Las lineas que empiezan con guion bajo son notas, el programa las ignora.",
+  "perfil": {
+    "_nota": "Quien eres tu. Se usa para el semaforo de elegibilidad y para los comentarios del tipo '¿puedo yo?'. Nada se descarta por esto: solo se comenta.",
+    "profesion": "Tecnologo Medico",
+    "menciones": [
+      "Radioterapia",
+      "Imagenologia",
+      "Resonancia Magnetica",
+      "Medicina Nuclear",
+      "Radiologia"
+    ],
+    "universidadTitulo": "Universidad de Chile",
+    "pais": "Chile",
+    "nacionalidad": "chilena",
+    "region": "Latinoamerica y el Caribe",
+    "idiomas": [
+      "es",
+      "en"
+    ],
+    "idiomasQueNoManejo": [
+      "fr",
+      "de",
+      "it",
+      "zh",
+      "ru",
+      "ar"
+    ],
+    "docencia": true,
+    "_docencia": "true = ensenas a otros tecnologos medicos. Sube el puntaje de todo lo que sea formacion de formadores, que es justo el criterio que pedia la IAEA.",
+    "institucionDocente": "Universidad Bernardo O'Higgins",
+    "tienePostgrado": false,
+    "_tienePostgrado": "Muchas becas piden magister o doctorado. Con false, el radar te avisa cuando ese es el unico requisito que te falta.",
+    "aniosExperiencia": 5,
+    "_aniosExperiencia": "Aproximado. Solo se usa para comentar '¿puedo yo?' cuando la convocatoria exige un minimo."
+  },
+  "intereses": {
+    "tecnicasEspeciales": 3,
+    "_tecnicasEspeciales": "IMRT, VMAT, SBRT, SRS, SFRT, braquiterapia, FLASH, protones, gating, DIBH, adaptativa. Las tecnicas propiamente tales, que es lo que mas te interesa aprender.",
+    "_nota": "Peso de cada area. 3 = te interesa mucho y sube fuerte el puntaje. 2 = te interesa. 1 = lo quieres ver pero abajo. 0 = no lo quieres (igual se guarda, pero queda al final del todo).",
+    "radioterapia": 3,
+    "fisicaMedica": 3,
+    "imagenologia": 3,
+    "resonancia": 3,
+    "proteccionRadiologica": 3,
+    "docenciaEducacion": 3,
+    "medicinaNuclear": 2,
+    "inteligenciaArtificial": 2,
+    "informaticaImagenes": 2,
+    "gestionCalidad": 1,
+    "investigacion": 2,
+    "ecografia": 1,
+    "_ecografia": "Lo unico que no manejas todavia. Peso bajo para que no inunde el panel, pero nunca se descarta: es tu proyecto de largo plazo."
+  },
+  "escaneo": {
+    "diasHaciaAtras": 120,
+    "_diasHaciaAtras": "Cuanto pasado se considera 'nuevo' en el primer escaneo. Despues el radar solo suma lo que aparece.",
+    "maxPaginasDetallePorFuente": 12,
+    "_maxPaginasDetallePorFuente": "Cuantas fichas individuales se abren por fuente para sacar fechas y requisitos. Subirlo da mas detalle y tarda mas.",
+    "maxMinutosPorEjecucion": 35,
+    "esperaMsEntrePeticiones": 1400,
+    "reintentos": 3,
+    "timeoutMs": 25000,
+    "diasConservarCerradas": 120,
+    "_diasConservarCerradas": "Cuanto tiempo se sigue mostrando algo cuya fecha limite ya paso, antes de archivarlo.",
+    "usarCalendarioSemilla": true,
+    "_usarCalendarioSemilla": "El seguro contra fallas: aunque un sitio cambie de diseno y su lector se rompa, los ciclos anuales conocidos (IAEA, abstracts de congresos, becas ANID) igual aparecen en el panel con su fecha estimada y un aviso de 'confirmar en la fuente'.",
+    "_esperaMsEntrePeticiones": "Pausa entre peticiones al mismo sitio. Subida a 1400 ms porque ESTRO y otros empiezan a rechazar cuando se les piden decenas de fichas seguidas, y ahi se perdian datos ya leidos."
+  },
+  "puntajes": {
+    "_nota": "Como se ordena el panel. Puedes cambiar estos numeros sin tocar el codigo.",
+    "porPesoDeInteres": 8,
+    "_porPesoDeInteres": "Se multiplica por el peso del area (0 a 3). Es lo que mas manda.",
+    "fuentePrioridadAlta": 12,
+    "fuentePrioridadMedia": 6,
+    "esGratis": 10,
+    "traeFinanciamiento": 18,
+    "_traeFinanciamiento": "Beca, pasaje, viaticos, fellowship pagado. Lo que realmente te permite ir.",
+    "esOnline": 8,
+    "esEnChile": 14,
+    "esLatam": 8,
+    "abiertoAChile": 10,
+    "idiomaQueManejas": 5,
+    "idiomaQueNoManejas": -6,
+    "formacionDeFormadores": 16,
+    "_formacionDeFormadores": "Train the trainer, docencia, educadores. Es el criterio que gatillo este proyecto.",
+    "deadlineMuyProximo": 12,
+    "deadlineProximo": 6,
+    "deadlineLejano": 2,
+    "yaCerrado": -40,
+    "certificaCreditos": 4,
+    "sinFechaConocida": -3,
+    "penalizacionInteresCero": -25
+  },
+  "avisos": {
+    "correoDiario": true,
+    "horaResumen": 8,
+    "_horaResumen": "Referencial: la hora real la manda el cron de GitHub Actions. Se usa para el texto del correo.",
+    "umbralCorreo": 20,
+    "_umbralCorreo": "Puntaje minimo para que algo nuevo entre al correo diario. Baja el numero si sientes que te estas perdiendo cosas.",
+    "maxPorCorreo": 40,
+    "umbralPush": 55,
+    "_umbralPush": "Puntaje minimo para que suene el telefono. Alto a proposito: el push es para lo que no te puedes perder.",
+    "maxPushPorEjecucion": 4,
+    "hitosDeCierre": [
+      60,
+      30,
+      14,
+      7,
+      3,
+      1
+    ],
+    "_hitosDeCierre": "Dias antes de la fecha limite en que el radar te vuelve a avisar, salvo que ya lo hayas marcado como postulado o descartado.",
+    "pushEnHitosDeCierre": [
+      7,
+      3,
+      1
+    ],
+    "horasSilencio": {
+      "desde": 23,
+      "hasta": 7
+    },
+    "resumenMensualHorizonte": true,
+    "_resumenMensualHorizonte": "El dia 1 de cada mes, la vista de los proximos 12 meses. Los ciclos de la IAEA se postulan con casi un ano de anticipacion.",
+    "maxCierresPorCorreo": 20,
+    "_maxCierresPorCorreo": "Cuantos plazos por cerrar caben en un correo. El resto queda en el panel; los mas urgentes van primero.",
+    "maxNoticiasPorCorreo": 5,
+    "_maxNoticiasPorCorreo": "Cuantas noticias que anuncian un curso o una beca entran al correo. Van al final, rotuladas: no son fichas verificadas, son titulares. Pon 0 si no las quieres."
+  },
+  "panel": {
+    "puerto": 4787,
+    "abrirNavegador": true,
+    "abrirEnRed": true,
+    "_abrirEnRed": "true = el panel tambien contesta a otros aparatos de tu misma red (tu celular por WiFi). false = solo este computador. Ponlo en false si estas en una red que no es tuya, como la del hospital."
+  }
+}

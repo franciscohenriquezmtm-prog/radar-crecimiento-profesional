@@ -1,0 +1,26 @@
+{
+  "name": "radar-crecimiento-profesional",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Radar de oportunidades de capacitacion, becas, congresos y crecimiento profesional para tecnologia medica: radioterapia, imagenologia, resonancia, medicina nuclear, fisica medica y proteccion radiologica.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "panel": "node src/servidor.js",
+    "escanear": "node src/cli.js escanear",
+    "escanear:profundo": "node src/cli.js escanear --profundo",
+    "sincronizar": "node src/cli.js sincronizar",
+    "salud": "node src/cli.js salud",
+    "horizonte": "node src/cli.js horizonte",
+    "reclasificar": "node src/cli.js reclasificar",
+    "probar-avisos": "node src/cli.js probar-avisos",
+    "probar-fuente": "node src/cli.js probar-fuente",
+    "reiniciar": "node src/cli.js reiniciar",
+    "diagnostico": "node src/cli.js diagnostico",
+    "avisar": "node src/cli.js avisar",
+    "exportar": "node src/cli.js exportar"
+  },
+  "dependencies": {}
+}

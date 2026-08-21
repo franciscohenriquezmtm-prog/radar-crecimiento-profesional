@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radar de crecimiento profesional</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="marca">
+    <h1>Radar de crecimiento profesional</h1>
+    <p class="sub">Becas, cursos, congresos y convocatorias para tecnologia medica</p>
+  </div>
+  <div class="acciones">
+    <button id="btn-escanear" class="boton">Escanear ahora</button>
+  </div>
+</header>
+
+<section class="tablero" id="tablero"></section>
+
+<nav class="pestanas">
+  <button class="pestana activa" data-vista="lista">Oportunidades</button>
+  <button class="pestana" data-vista="horizonte">Horizonte 12 meses</button>
+  <button class="pestana" data-vista="salud">Salud de fuentes</button>
+</nav>
+
+<section class="atajos" id="atajos">
+  <button class="atajo activo" data-atajo="todo">Todo</button>
+  <button class="atajo" data-atajo="tecnicas">Tecnicas especiales</button>
+  <button class="atajo" data-atajo="financiado">Con financiamiento</button>
+  <button class="atajo" data-atajo="gratis">Gratis y online</button>
+  <button class="atajo" data-atajo="paraMi">Para tecnologos medicos</button>
+  <button class="atajo" data-atajo="pronto">Cierra pronto</button>
+  <button class="atajo" data-atajo="historico">Ediciones pasadas</button>
+  <button class="atajo" data-atajo="pistas">Noticias</button>
+  <button class="atajo" data-atajo="anuncios">Noticias que anuncian algo</button>
+</section>
+
+<section class="filtros" id="filtros">
+  <input type="search" id="f-texto" placeholder="Buscar por palabra, organizacion...">
+  <select id="f-tipo"><option value="">Todos los tipos</option></select>
+  <select id="f-area"><option value="">Todas las areas</option></select>
+  <select id="f-semaforo">
+    <option value="">Cualquier elegibilidad</option>
+    <option value="verde">Te calza</option>
+    <option value="amarillo">Con condiciones</option>
+    <option value="rojo">Poco probable</option>
+  </select>
+  <select id="f-estado">
+    <option value="">Todos los estados</option>
+    <option value="nuevo">Sin revisar</option>
+    <option value="guardado">Guardadas</option>
+    <option value="postulado">Postuladas</option>
+    <option value="descartado">Descartadas</option>
+  </select>
+  <select id="f-orden">
+    <option value="puntaje">Ordenar por relevancia</option>
+    <option value="plazo">Ordenar por plazo</option>
+    <option value="reciente">Ordenar por hallazgo</option>
+  </select>
+  <label class="check"><input type="checkbox" id="f-abiertas" checked> Solo abiertas</label>
+</section>
+
+<main id="contenido"></main>
+
+<footer class="pie">
+  <p>Las fechas marcadas como <em>estimadas</em> vienen del calendario de ciclos historicos: hay que confirmarlas en la fuente.
+  El semaforo de elegibilidad es una opinion del radar, no una decision: nada se descarta solo.</p>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

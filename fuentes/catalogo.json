@@ -1,0 +1,3664 @@
+{
+  "_comentario": "Catalogo de fuentes del radar. Cada fuente puede tener VARIAS estrategias: se prueban en orden hasta que una entregue resultados. Si todas fallan, la fuente queda en rojo en la pestana Salud de fuentes y el calendario semilla cubre el hueco. Puedes agregar, editar o desactivar fuentes sin tocar el codigo (pon activa: false).",
+  "_estrategias": {
+    "feed": "RSS, Atom o JSON Feed. Lo mas confiable cuando existe.",
+    "html": "Lee los enlaces de una pagina de listado. patronEnlace filtra por la direccion; patronTexto filtra por el texto del enlace.",
+    "sitemap": "Lee el sitemap.xml del sitio y filtra direcciones. Sirve cuando el listado se arma con javascript.",
+    "ical": "Calendario .ics de eventos."
+  },
+  "_prioridad": "alta = suma puntos y puede sonar el telefono. media = normal. baja = se guarda pero queda abajo.",
+  "_areas": "Pistas para el clasificador. El texto real de cada oportunidad manda por sobre esto, pero ayuda cuando el titulo es escueto.",
+  "fuentes": [
+    {
+      "id": "iaea-noticias",
+      "nombre": "OIEA · Noticias",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "proteccionRadiologica",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://www.iaea.org/feeds/news"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/news",
+          "patronEnlace": "/newscenter/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://www.iaea.org/feeds/topnews"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-eventos",
+      "nombre": "OIEA · Eventos y conferencias",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "medicinaNuclear",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/events",
+          "patronEnlace": "/events/"
+        },
+        {
+          "tipo": "ical",
+          "url": "https://conferences.iaea.org/category/1/events.ics"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://www.iaea.org/feeds/topnews"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-conferencias",
+      "nombre": "OIEA · Portal de conferencias (call for papers)",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "medicinaNuclear",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "ical",
+          "url": "https://conferences.iaea.org/category/1/events.ics"
+        },
+        {
+          "tipo": "ical",
+          "url": "https://conferences.iaea.org/export/categ/1.ics"
+        },
+        {
+          "tipo": "html",
+          "url": "https://conferences.iaea.org/category/1/",
+          "patronEnlace": "/event/[0-9]+/$"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-becas-tc",
+      "nombre": "OIEA · Becas, visitas cientificas y cursos (Cooperacion Tecnica)",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "medicinaNuclear",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "notas": "Se postula a traves de la Autoridad Nacional de Enlace. En Chile es la CCHEN, nunca directo al OIEA.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/technical-cooperation-programme/how-to-participate",
+          "patronEnlace": "/technical-cooperation|/services/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/technical-cooperation-programme",
+          "patronEnlace": "/technical-cooperation|/projects/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=OIEA%20beca%20OR%20capacitacion%20OR%20cooperacion%20tecnica%20Chile%20radioterapia&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-crp",
+      "nombre": "OIEA · Proyectos Coordinados de Investigacion (CRP) abiertos",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "investigacion",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "medicinaNuclear",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/coordinated-research-activities",
+          "patronEnlace": "/coordinated-research|/crp|/newscenter/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://cra.iaea.org/cra/explore-crps.html",
+          "patronEnlace": "crp|call"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IAEA%20%22coordinated%20research%20project%22%20OR%20%22call%20for%20proposals%22%20radiation%20medicine&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-educacion",
+      "nombre": "OIEA · Educacion y capacitacion",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "proteccionRadiologica",
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/education-and-training/training-courses",
+          "patronEnlace": "/services/|/training|/events/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/education-and-training",
+          "patronEnlace": "/services/|/training"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IAEA%20training%20course%20medical%20physics%20OR%20radiotherapy%20OR%20radiographers&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-elearning",
+      "nombre": "OIEA · Plataforma de e-learning",
+      "grupo": "plataformas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "proteccionRadiologica",
+        "radioterapia",
+        "medicinaNuclear",
+        "fisicaMedica"
+      ],
+      "detalle": false,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/education-and-training/online-learning/courses",
+          "patronEnlace": "/online-learning|/course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://elearning.iaea.org/m2/",
+          "patronEnlace": "/course/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IAEA%20e-learning%20course%20radiation%20protection%20OR%20radiotherapy&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-humanhealth",
+      "nombre": "OIEA · Human Health Campus",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "fisicaMedica",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/topics/human-health-0",
+          "patronEnlace": "/newscenter/|/topics/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/news",
+          "patronEnlace": "/newscenter/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IAEA%20human%20health%20radiotherapy%20OR%20dosimetry%20OR%20nuclear%20medicine%20training&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-mscfp",
+      "nombre": "OIEA · Becas Marie Sklodowska-Curie y Lise Meitner",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "fisicaMedica",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "notas": "Dirigidas principalmente a mujeres. Utiles para difundir entre tus alumnas de la UBO.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/education-and-training/marie-sklodowska-curie-fellowship-programme",
+          "patronEnlace": "/mscfp|/fellowship|/services/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22Marie%20Sklodowska-Curie%20Fellowship%20Programme%22%20IAEA&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-arcal",
+      "nombre": "OIEA · ARCAL (acuerdo regional para America Latina)",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "notas": "Los cursos regionales ARCAL son la via mas realista para un tecnologo medico chileno: se hacen en la region y en espanol.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/es/servicios/programa-de-cooperacion-tecnica",
+          "patronEnlace": "/es/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.arcal-lac.org/",
+          "patronEnlace": "noticia|evento|curso"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=ARCAL%20OIEA%20America%20Latina%20curso%20OR%20proyecto%20radioterapia&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ops-eventos",
+      "nombre": "OPS/OMS · Eventos",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "proteccionRadiologica",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://www.paho.org/es/rss/eventos"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.paho.org/es/eventos",
+          "patronEnlace": "/es/eventos/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ops-campus",
+      "nombre": "OPS · Campus Virtual de Salud Publica",
+      "grupo": "plataformas",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "gestionCalidad",
+        "docenciaEducacion",
+        "imagenologia"
+      ],
+      "detalle": false,
+      "notas": "Cursos gratis, en espanol y con certificado. Muchos autoadministrados.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.campusvirtualsp.org/es/cursos",
+          "patronEnlace": "/es/curso"
+        },
+        {
+          "tipo": "html",
+          "url": "https://campus.paho.org/es",
+          "patronEnlace": "curso|course"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ops-radiologia",
+      "nombre": "OPS · Radiologia y proteccion radiologica",
+      "grupo": "organismos",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.paho.org/es/noticias",
+          "patronEnlace": "/es/noticias/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=OPS%20radiologia%20OR%20proteccion%20radiologica%20curso%20America%20Latina&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "who-openwho",
+      "nombre": "OMS · OpenWHO (cursos abiertos)",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "gestionCalidad",
+        "proteccionRadiologica"
+      ],
+      "detalle": false,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://openwho.org/",
+          "patronEnlace": "courses|channels"
+        },
+        {
+          "tipo": "html",
+          "url": "https://openwho.org/channels",
+          "patronEnlace": "channels|courses"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=OpenWHO%20course%20health%20emergency%20OR%20radiation&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "who-eventos",
+      "nombre": "OMS · Eventos y consultas publicas",
+      "grupo": "organismos",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.who.int/news-room/events",
+          "patronEnlace": "/news-room/events/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ictp",
+      "nombre": "ICTP Trieste · Calendario cientifico",
+      "grupo": "universidades",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "notas": "El ICTP financia participacion de paises en desarrollo. Su Escuela de Fisica Medica junto al OIEA es una de las mejores puertas de entrada desde Latinoamerica.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.ictp.it/scientific-calendar",
+          "patronEnlace": "event|activity"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=ICTP%20Trieste%20medical%20physics%20college%20OR%20school&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "twas",
+      "nombre": "TWAS · Oportunidades para cientificos del sur global",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "investigacion",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://twas.org/opportunities/",
+          "patronEnlace": "opportunit"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "oea-becas",
+      "nombre": "OEA · Becas y oportunidades academicas",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "tipo": "beca",
+      "areas": [
+        "docenciaEducacion",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.oas.org/es/becas/",
+          "patronEnlace": "beca|scholarship"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.oas.org/en/scholarships/",
+          "patronEnlace": "scholarship"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "icrp",
+      "nombre": "ICRP · Comision Internacional de Proteccion Radiologica",
+      "grupo": "reguladores",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.icrp.org/news.asp",
+          "patronEnlace": "news|page|docs"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.icrp.org/",
+          "patronEnlace": "news|meeting|symposium"
+        }
+      ]
+    },
+    {
+      "id": "irpa",
+      "nombre": "IRPA · Asociacion Internacional de Proteccion Radiologica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.irpa.net/",
+          "patronEnlace": "news|event|congress|refresher"
+        }
+      ]
+    },
+    {
+      "id": "estro-cursos",
+      "nombre": "ESTRO · Cursos y ESTRO School",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "notas": "Tiene comite propio de RTT (tecnologos de radioterapia) y becas de viaje para participantes de fuera de Europa.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.estro.org/Courses",
+          "patronEnlace": "/Courses/|/Course"
+        },
+        {
+          "tipo": "sitemap",
+          "url": "https://www.estro.org/sitemap.xml",
+          "patronEnlace": "Courses|Congresses"
+        }
+      ]
+    },
+    {
+      "id": "estro-noticias",
+      "nombre": "ESTRO · Noticias, becas y congresos",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.estro.org/About/Newsroom",
+          "patronEnlace": "/Newsroom|/News"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.estro.org/Congresses",
+          "patronEnlace": "/Congress"
+        }
+      ]
+    },
+    {
+      "id": "estro-rtt",
+      "nombre": "ESTRO · Comite de RTT (tecnologos de radioterapia)",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.estro.org/",
+          "patronEnlace": "RTT|Committee|Communit"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=ESTRO%20RTT%20radiation%20therapist%20course%20OR%20grant&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "activa": false,
+      "notas": "Desactivada: su contenido ya entra por estro-cursos, que lee la pagina real. Sola solo aportaba titulares de prensa."
+    },
+    {
+      "id": "astro",
+      "nombre": "ASTRO · Reuniones y educacion",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=ASTRO%20radiation%20oncology%20annual%20meeting%20OR%20abstract%20OR%20education&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.astro.org/Meetings-and-Education",
+          "patronEnlace": "/Meetings|/Education|/Courses"
+        }
+      ]
+    },
+    {
+      "id": "aapm",
+      "nombre": "AAPM · Asociacion Americana de Fisicos en Medicina",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "notas": "Su biblioteca virtual y sus webinars suelen ser gratis o muy baratos para miembros internacionales.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.aapm.org/education/",
+          "patronEnlace": "/education|/meetings|/course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.aapm.org/meetings/",
+          "patronEnlace": "/meetings"
+        }
+      ]
+    },
+    {
+      "id": "aapm-internacional",
+      "nombre": "AAPM · Actividades educativas internacionales",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.aapm.org/",
+          "patronEnlace": "intl|international|education|meeting"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=AAPM%20international%20educational%20activities%20medical%20physics&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "iomp",
+      "nombre": "IOMP · Organizacion Internacional de Fisica Medica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "notas": "La IOMP School dicta webinars gratuitos y abiertos a todo el mundo.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://www.iomp.org/feed/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iomp.org/news/",
+          "patronEnlace": "news|school|webinar|event"
+        }
+      ]
+    },
+    {
+      "id": "efomp",
+      "nombre": "EFOMP · Federacion Europea de Fisica Medica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.efomp.org/index.php?r=news%2Findex",
+          "patronEnlace": "news|event"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.efomp.org/",
+          "patronEnlace": "news|event|course"
+        }
+      ]
+    },
+    {
+      "id": "eutempe",
+      "nombre": "EUTEMPE · Cursos europeos para expertos en fisica medica",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=medical%20physics%20expert%20training%20Europe%20EUTEMPE%20OR%20EFOMP%20course&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "alfim",
+      "nombre": "ALFIM · Asociacion Latinoamericana de Fisica Medica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=fisica%20medica%20congreso%20OR%20curso%20Latinoamerica%20ALFIM%20OR%20CLAFM&hl=es-419&gl=CL&ceid=CL:es-419"
+        },
+        {
+          "tipo": "html",
+          "url": "https://alfim.net/"
+        }
+      ]
+    },
+    {
+      "id": "alatro",
+      "nombre": "ALATRO · Asociacion Latinoamericana de Terapia Radiante Oncologica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://alatro.org/",
+          "patronEnlace": "noticia|evento|curso|congreso"
+        }
+      ]
+    },
+    {
+      "id": "rayos-contra-cancer",
+      "nombre": "Rayos Contra Cancer · Educacion en radioterapia en espanol",
+      "grupo": "plataformas",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "notas": "Cursos y webinars gratuitos en espanol para equipos de radioterapia latinoamericanos. Tambien buscan docentes y tutores: mirar sus convocatorias.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=radioterapia%20curso%20OR%20webinar%20gratuito%20Latinoamerica%20formacion&hl=es-419&gl=CL&ceid=CL:es-419"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.rayoscontracancer.org/"
+        }
+      ]
+    },
+    {
+      "id": "isrrt",
+      "nombre": "ISRRT · Sociedad Internacional de Tecnologos Medicos en Radiologia",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "medicinaNuclear",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "notas": "Es TU sociedad internacional: agrupa tecnologos medicos y radiographers. Congreso mundial, webinars gratis y programas de formacion de docentes.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.isrrt.org/news",
+          "patronEnlace": "news|event|webinar|congress"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.isrrt.org/",
+          "patronEnlace": "news|event|webinar|congress|education"
+        }
+      ]
+    },
+    {
+      "id": "efrs",
+      "nombre": "EFRS · Federacion Europea de Sociedades de Radiographers",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.efrs.eu/sitemap.xml",
+          "patronEnlace": "news|event"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22European%20Federation%20of%20Radiographer%20Societies%22%20education%20OR%20congress&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.efrs.eu/news",
+          "patronEnlace": "news|event"
+        }
+      ]
+    },
+    {
+      "id": "asrt",
+      "nombre": "ASRT · Sociedad Americana de Tecnologos Radiologos",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "radioterapia",
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "notas": "Educacion continua (CE) para tecnologos. Varias actividades abiertas sin ser miembro.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.asrt.org/main/continuing-education",
+          "patronEnlace": "continuing-education|course|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.asrt.org/main/news-research",
+          "patronEnlace": "news|research"
+        }
+      ]
+    },
+    {
+      "id": "arrt",
+      "nombre": "ARRT · Certificacion de tecnologos (Estados Unidos)",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "certificacion",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "radioterapia",
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "notas": "Certificacion internacional reconocida. Revisar via de elegibilidad para titulados fuera de EEUU.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.arrt.org/",
+          "patronEnlace": "news|credential|pathway|earn|discipline"
+        }
+      ]
+    },
+    {
+      "id": "aamd",
+      "nombre": "AAMD · Asociacion Americana de Dosimetristas Medicos",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.medicaldosimetry.org/education/",
+          "patronEnlace": "education|meeting|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.medicaldosimetry.org/",
+          "patronEnlace": "education|meeting|news"
+        }
+      ]
+    },
+    {
+      "id": "rsna",
+      "nombre": "RSNA · Sociedad Radiologica de Norteamerica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "inteligenciaArtificial"
+      ],
+      "detalle": true,
+      "notas": "Programas internacionales: Global Learning Centers, International Visiting Professor, becas de viaje al congreso anual.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://www.rsna.org/rss/news.xml"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.rsna.org/education",
+          "patronEnlace": "education|course|meeting"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.rsna.org/about/global-outreach",
+          "patronEnlace": "global|outreach|grant"
+        }
+      ]
+    },
+    {
+      "id": "esr",
+      "nombre": "ESR · Sociedad Europea de Radiologia",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.myesr.org/news/",
+          "patronEnlace": "news|education|course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.myesr.org/education/",
+          "patronEnlace": "education|course|school"
+        }
+      ]
+    },
+    {
+      "id": "ecr",
+      "nombre": "ECR · Congreso Europeo de Radiologia",
+      "grupo": "congresos",
+      "prioridad": "alta",
+      "pais": "Europa",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.myesr.org/congress/",
+          "patronEnlace": "congress|abstract|ecr"
+        }
+      ]
+    },
+    {
+      "id": "snmmi",
+      "nombre": "SNMMI · Sociedad de Medicina Nuclear e Imagen Molecular",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "notas": "Tiene seccion propia de tecnologos (SNMMI-TS) con educacion continua.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.snmmi.org/Web/News/News.aspx",
+          "patronEnlace": "news|meeting|education"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.snmmi.org/",
+          "patronEnlace": "news|meeting|education|webinar"
+        }
+      ]
+    },
+    {
+      "id": "eanm",
+      "nombre": "EANM · Asociacion Europea de Medicina Nuclear",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.eanm.org/news/",
+          "patronEnlace": "news|event|course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.eanm.org/congresses-events/",
+          "patronEnlace": "congress|event|course"
+        }
+      ]
+    },
+    {
+      "id": "alasbimn",
+      "nombre": "ALASBIMN · Medicina nuclear en Latinoamerica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://alasbimn.net/",
+          "patronEnlace": "noticia|evento|curso|congreso"
+        }
+      ]
+    },
+    {
+      "id": "ismrm",
+      "nombre": "ISMRM · Sociedad Internacional de Resonancia Magnetica",
+      "grupo": "sociedades",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "resonancia",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "notas": "La SMRT es su seccion de tecnologos de resonancia: cursos, certificacion y becas de viaje.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.ismrm.org/news/",
+          "patronEnlace": "news|meeting|workshop"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.ismrm.org/workshops/",
+          "patronEnlace": "workshop|meeting"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.ismrm.org/smrt/",
+          "patronEnlace": "smrt|education|webinar"
+        }
+      ]
+    },
+    {
+      "id": "esmrmb",
+      "nombre": "ESMRMB · Sociedad Europea de Resonancia Magnetica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "areas": [
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.esmrmb.org/education/",
+          "patronEnlace": "education|school|course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.esmrmb.org/",
+          "patronEnlace": "news|education|course|congress"
+        }
+      ]
+    },
+    {
+      "id": "acr",
+      "nombre": "ACR · Colegio Americano de Radiologia",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "gestionCalidad",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.acr.org/",
+          "patronEnlace": "Education-and-CME|Lifelong-Learning|Meetings|Courses"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.acr.org/Education-and-CME",
+          "patronEnlace": "Education|CME|Course|Meeting"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=American%20College%20of%20Radiology%20education%20course%20OR%20meeting&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "siim",
+      "nombre": "SIIM · Informatica de imagenes medicas (PACS, DICOM, IA)",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "informaticaImagenes",
+        "inteligenciaArtificial",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://siim.org/page/education/",
+          "patronEnlace": "education|webinar|meeting"
+        },
+        {
+          "tipo": "html",
+          "url": "https://siim.org/",
+          "patronEnlace": "education|webinar|meeting|news"
+        }
+      ]
+    },
+    {
+      "id": "acpsem",
+      "nombre": "ACPSEM · Fisica medica de Australia y Nueva Zelanda",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Oceania",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://acpsem.org.au/",
+          "patronEnlace": "news|event|webinar|education"
+        }
+      ]
+    },
+    {
+      "id": "hps",
+      "nombre": "Health Physics Society",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://hps.org/newsandevents/",
+          "patronEnlace": "news|event|meeting"
+        }
+      ]
+    },
+    {
+      "id": "ncrp",
+      "nombre": "NCRP · Consejo Nacional de Proteccion Radiologica (EEUU)",
+      "grupo": "reguladores",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://ncrponline.org/",
+          "patronEnlace": "news|meeting|program|publication"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=NCRP%20radiation%20protection%20meeting%20OR%20report&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "sefm",
+      "nombre": "SEFM · Sociedad Espanola de Fisica Medica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Espana",
+      "idioma": "es",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "notas": "En espanol y con cursos online. Muy aprovechable desde Chile.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.sefm.es/",
+          "patronEnlace": "curso|noticia|congreso|formacion"
+        }
+      ]
+    },
+    {
+      "id": "sepr",
+      "nombre": "SEPR · Sociedad Espanola de Proteccion Radiologica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Espana",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.sepr.es/",
+          "patronEnlace": "curso|noticia|congreso|jornada|formacion"
+        }
+      ]
+    },
+    {
+      "id": "seor",
+      "nombre": "SEOR · Sociedad Espanola de Oncologia Radioterapica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Espana",
+      "idioma": "es",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.seor.es/",
+          "patronEnlace": "curso|noticia|congreso|formacion"
+        }
+      ]
+    },
+    {
+      "id": "seram",
+      "nombre": "SERAM · Sociedad Espanola de Radiologia Medica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Espana",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://seram.es/",
+          "patronEnlace": "curso|noticia|congreso|formacion"
+        }
+      ]
+    },
+    {
+      "id": "csn-espana",
+      "nombre": "CSN Espana · Formacion en proteccion radiologica",
+      "grupo": "reguladores",
+      "prioridad": "baja",
+      "pais": "Espana",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.csn.es/",
+          "patronEnlace": "formacion|curso|noticia"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "abfm-brasil",
+      "nombre": "ABFM · Asociacion Brasilena de Fisica Medica",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Brasil",
+      "idioma": "pt",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.abfm.org.br/",
+          "patronEnlace": "curso|noticia|evento|congresso"
+        }
+      ]
+    },
+    {
+      "id": "sbrt-brasil",
+      "nombre": "SBRT · Sociedad Brasilena de Radioterapia",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Brasil",
+      "idioma": "pt",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://sbradioterapia.com.br/",
+          "patronEnlace": "curso|noticia|evento|congresso"
+        }
+      ]
+    },
+    {
+      "id": "cbr-brasil",
+      "nombre": "CBR · Colegio Brasileno de Radiologia",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Brasil",
+      "idioma": "pt",
+      "areas": [
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://cbr.org.br/",
+          "patronEnlace": "curso|noticia|evento|congresso"
+        }
+      ]
+    },
+    {
+      "id": "cir-webcir",
+      "nombre": "CIR · Colegio Interamericano de Radiologia",
+      "grupo": "sociedades",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://webcir.org/",
+          "patronEnlace": "curso|noticia|evento|congreso|educacion"
+        }
+      ]
+    },
+    {
+      "id": "sochradi",
+      "nombre": "SOCHRADI · Sociedad Chilena de Radiologia",
+      "grupo": "chile",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.sochradi.cl/",
+          "patronEnlace": "curso|noticia|evento|congreso|jornada"
+        }
+      ]
+    },
+    {
+      "id": "colegio-tm",
+      "nombre": "Colegio de Tecnologos Medicos de Chile",
+      "grupo": "chile",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "medicinaNuclear",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.colegiodetecnologosmedicos.cl/",
+          "patronEnlace": "noticia|curso|evento|congreso|capacitacion|jornada"
+        }
+      ]
+    },
+    {
+      "id": "cchen",
+      "nombre": "CCHEN · Comision Chilena de Energia Nuclear",
+      "grupo": "chile",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica",
+        "medicinaNuclear",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "notas": "Clave doble: dicta los cursos de proteccion radiologica en Chile Y es la Autoridad Nacional de Enlace ante el OIEA. Toda postulacion a becas OIEA pasa por aca.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.cchen.cl/",
+          "patronEnlace": "curso|noticia|capacitacion|beca|convocatoria"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.cchen.cl/?page_id=1064",
+          "patronEnlace": "curso|capacitacion"
+        }
+      ]
+    },
+    {
+      "id": "isp-chile",
+      "nombre": "ISP · Instituto de Salud Publica de Chile",
+      "grupo": "chile",
+      "prioridad": "media",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.ispch.gob.cl/",
+          "patronEnlace": "capacitacion|curso|noticia",
+          "tlsRelajado": true
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Instituto%20de%20Salud%20Publica%20Chile%20curso%20OR%20capacitacion%20radiologia&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "minsal",
+      "nombre": "MINSAL · Ministerio de Salud de Chile",
+      "grupo": "chile",
+      "prioridad": "media",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "gestionCalidad",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.minsal.cl/",
+          "patronEnlace": "noticia|capacitacion|curso"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "inc-chile",
+      "nombre": "Instituto Nacional del Cancer (Chile)",
+      "grupo": "chile",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://incancer.cl/",
+          "patronEnlace": "curso|noticia|jornada|congreso|capacitacion|docencia"
+        }
+      ]
+    },
+    {
+      "id": "falp",
+      "nombre": "Fundacion Arturo Lopez Perez (FALP)",
+      "grupo": "chile",
+      "prioridad": "media",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.falp.org/",
+          "patronEnlace": "curso|noticia|docencia|congreso|academia"
+        }
+      ]
+    },
+    {
+      "id": "anid",
+      "nombre": "ANID · Concursos y becas (Chile)",
+      "grupo": "becas",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "tipo": "beca",
+      "areas": [
+        "investigacion",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "notas": "Becas de magister y doctorado nacional y en el extranjero, mas fondos de investigacion.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://anid.cl/concursos/",
+          "patronEnlace": "concurso|convocatoria"
+        },
+        {
+          "tipo": "html",
+          "url": "https://anid.cl/",
+          "patronEnlace": "concurso|convocatoria|beca"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "uchile-continua",
+      "nombre": "Universidad de Chile · Educacion continua",
+      "grupo": "universidades",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://uchile.cl/cursos",
+          "patronEnlace": "curso|diplomado|programa"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.uchile.cl/agenda",
+          "patronEnlace": "agenda|curso|charla|seminario"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "uchile-medicina",
+      "nombre": "Universidad de Chile · Facultad de Medicina y postgrado",
+      "grupo": "universidades",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "docenciaEducacion",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://medicina.uchile.cl/noticias",
+          "patronEnlace": "noticia|curso|diplomado|postgrado"
+        },
+        {
+          "tipo": "html",
+          "url": "https://postgradomedicina.uchile.cl/",
+          "patronEnlace": "programa|diplomado|magister|curso"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "uc-continua",
+      "nombre": "Pontificia Universidad Catolica · Educacion continua",
+      "grupo": "universidades",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "gestionCalidad",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://educacioncontinua.uc.cl/programas",
+          "patronEnlace": "programa|curso|diplomado"
+        },
+        {
+          "tipo": "html",
+          "url": "https://educacioncontinua.uc.cl/",
+          "patronEnlace": "programa|curso|diplomado"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ubo",
+      "nombre": "Universidad Bernardo OHiggins · Noticias y educacion continua",
+      "grupo": "universidades",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "docenciaEducacion",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "notas": "Tu casa docente. Sirve para enterarte de concursos academicos, jornadas y perfeccionamiento docente interno.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.ubo.cl/",
+          "patronEnlace": "noticia|curso|diplomado|educacion-continua|academic"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "usach",
+      "nombre": "Universidad de Santiago de Chile · Educacion continua",
+      "grupo": "universidades",
+      "prioridad": "media",
+      "pais": "Chile",
+      "idioma": "es",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.usach.cl/noticias",
+          "patronEnlace": "noticia|curso|diplomado"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "unab",
+      "nombre": "Universidad Andres Bello · Postgrado en salud",
+      "grupo": "universidades",
+      "prioridad": "media",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://postgrado.unab.cl/",
+          "patronEnlace": "postgrado|diplomado|magister|programa"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "umayor",
+      "nombre": "Universidad Mayor · Postgrado y educacion continua",
+      "grupo": "universidades",
+      "prioridad": "baja",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://postgrados.umayor.cl/",
+          "patronEnlace": "postgrado|diplomado|magister"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "udd",
+      "nombre": "Universidad del Desarrollo · Postgrado en salud",
+      "grupo": "universidades",
+      "prioridad": "baja",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://postgrados.udd.cl/",
+          "patronEnlace": "postgrado|diplomado|magister|curso"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "uv-chile",
+      "nombre": "Universidad de Valparaiso · Tecnologia medica y postgrado",
+      "grupo": "universidades",
+      "prioridad": "baja",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.uv.cl/pdn/",
+          "patronEnlace": "curso|diplomado|postgrado|noticia"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "udec",
+      "nombre": "Universidad de Concepcion · Postgrado y educacion continua",
+      "grupo": "universidades",
+      "prioridad": "baja",
+      "pais": "Chile",
+      "idioma": "es",
+      "areas": [
+        "imagenologia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.udec.cl/pexterno/",
+          "patronEnlace": "curso|diplomado|postgrado|noticia"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "varian",
+      "nombre": "Varian (Siemens Healthineers) · Educacion y entrenamiento",
+      "grupo": "marcas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "notas": "Cursos de Eclipse, ARIA, TrueBeam, Halcyon, Ethos. Mucho es online y gratuito para usuarios de la plataforma.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.varian.com/resources-support/education-training",
+          "patronEnlace": "education|training|course|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.varian.com/about-varian/newsroom",
+          "patronEnlace": "news|event|webinar"
+        }
+      ]
+    },
+    {
+      "id": "elekta",
+      "nombre": "Elekta · Educacion y Elekta Care Learning",
+      "grupo": "marcas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "notas": "Monaco, MOSAIQ, Versa HD, Unity MR-Linac, Gamma Knife y braquiterapia.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.elekta.com/services/elekta-care-learning/courses/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Elekta%20training%20OR%20education%20radiotherapy%20Monaco%20OR%20MOSAIQ%20OR%20Unity&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "siemens-healthineers",
+      "nombre": "Siemens Healthineers · Educacion (PEPconnect)",
+      "grupo": "marcas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.siemens-healthineers.com/education",
+          "patronEnlace": "education|training|course|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.siemens-healthineers.com/news",
+          "patronEnlace": "news|event"
+        }
+      ]
+    },
+    {
+      "id": "philips",
+      "nombre": "Philips Healthcare · Educacion y Learning Connection",
+      "grupo": "marcas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.philips.com/a-w/about/news/archive.html",
+          "patronEnlace": "news|education|event"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.usa.philips.com/healthcare/education-resources",
+          "patronEnlace": "education|course|training|webinar"
+        }
+      ]
+    },
+    {
+      "id": "ge-healthcare",
+      "nombre": "GE HealthCare · Educacion e Institute",
+      "grupo": "marcas",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "medicinaNuclear",
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.gehealthcare.com/education",
+          "patronEnlace": "education|course|training|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.gehealthcare.com/insights",
+          "patronEnlace": "insight|education|webinar"
+        }
+      ]
+    },
+    {
+      "id": "canon-medical",
+      "nombre": "Canon Medical Systems · Academia y educacion",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia",
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://global.medical.canon/",
+          "patronEnlace": "education|academy|news|event"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Canon%20Medical%20Systems%20education%20OR%20academy%20imaging&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "fujifilm-healthcare",
+      "nombre": "Fujifilm Healthcare · Educacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://healthcaresolutions-us.fujifilm.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Fujifilm%20healthcare%20education%20OR%20webinar%20imaging&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "hologic",
+      "nombre": "Hologic · Hologic University (mamografia)",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.hologic.com/",
+          "patronEnlace": "education|university|training|news"
+        }
+      ]
+    },
+    {
+      "id": "bayer-radiologia",
+      "nombre": "Bayer Radiology · Educacion en medios de contraste",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.radiologysolutions.bayer.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Bayer%20radiology%20education%20contrast%20media%20webinar&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "bracco",
+      "nombre": "Bracco Imaging · Formacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.bracco.com/",
+          "patronEnlace": "news|event|education|training"
+        }
+      ]
+    },
+    {
+      "id": "accuray",
+      "nombre": "Accuray · Educacion (CyberKnife, TomoTherapy)",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.accuray.com/education/",
+          "patronEnlace": "education|course|training|webinar"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.accuray.com/news-events/",
+          "patronEnlace": "news|event|webinar"
+        }
+      ]
+    },
+    {
+      "id": "brainlab",
+      "nombre": "Brainlab · Brainlab Academy",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.brainlab.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Brainlab%20academy%20training%20OR%20course%20radiosurgery&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "raysearch",
+      "nombre": "RaySearch (RayStation) · Eventos y formacion",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.raysearchlabs.com/events/",
+          "patronEnlace": "event|webinar|training|course"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.raysearchlabs.com/media/",
+          "patronEnlace": "news|press|event"
+        }
+      ]
+    },
+    {
+      "id": "sun-nuclear",
+      "nombre": "Sun Nuclear (Mirion) · Educacion en control de calidad",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.sunnuclear.com/resources",
+          "patronEnlace": "resource|webinar|education|training"
+        }
+      ]
+    },
+    {
+      "id": "ptw",
+      "nombre": "PTW Dosimetry · Cursos de dosimetria",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.ptwdosimetry.com/en/",
+          "patronEnlace": "training|course|seminar|webinar|news"
+        }
+      ]
+    },
+    {
+      "id": "iba-dosimetry",
+      "nombre": "IBA Dosimetry · Centro de conocimiento",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IBA%20Dosimetry%20webinar%20OR%20training%20radiotherapy&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.iba-dosimetry.com/knowledge-center",
+          "patronEnlace": "knowledge|webinar|training|event"
+        }
+      ]
+    },
+    {
+      "id": "standard-imaging",
+      "nombre": "Standard Imaging · Recursos y webinars",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.standardimaging.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Standard%20Imaging%20dosimetry%20webinar%20OR%20education&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "mirion",
+      "nombre": "Mirion Technologies · Dosimetria personal y formacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Mirion%20dosimetry%20training%20OR%20webinar%20radiation&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.mirion.com/discover",
+          "patronEnlace": "discover|webinar|training|resource"
+        }
+      ]
+    },
+    {
+      "id": "radformation",
+      "nombre": "Radformation · Webinars de automatizacion en radioterapia",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "webinar",
+      "areas": [
+        "radioterapia",
+        "fisicaMedica",
+        "inteligenciaArtificial"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://radformation.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Radformation%20webinar%20OR%20automation%20radiation%20oncology&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "limbus-ai",
+      "nombre": "Limbus AI · Webinars de autocontorneo",
+      "grupo": "marcas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "webinar",
+      "areas": [
+        "radioterapia",
+        "inteligenciaArtificial"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://limbus.ai/",
+          "patronEnlace": "webinar|news|event|blog"
+        }
+      ]
+    },
+    {
+      "id": "mim-software",
+      "nombre": "MIM Software · Eventos y formacion",
+      "growth": true,
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.mimsoftware.com/events",
+          "patronEnlace": "event|webinar|training"
+        }
+      ]
+    },
+    {
+      "id": "vision-rt",
+      "nombre": "Vision RT · Formacion en posicionamiento de superficie",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.visionrt.com/",
+          "patronEnlace": "resource|webinar|event|training|news"
+        }
+      ]
+    },
+    {
+      "id": "c-rad",
+      "nombre": "C-RAD · Recursos y webinars",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "webinar",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://c-rad.com/news-events/",
+          "patronEnlace": "news|event|webinar"
+        }
+      ]
+    },
+    {
+      "id": "orfit",
+      "nombre": "Orfit Industries · Formacion en inmovilizacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.orfit.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Orfit%20immobilization%20radiotherapy%20training%20OR%20webinar&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "eckert-ziegler",
+      "nombre": "Eckert & Ziegler / BEBIG · Braquiterapia",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.bebig.com/news/",
+          "patronEnlace": "news|event|training|course"
+        }
+      ]
+    },
+    {
+      "id": "zap-surgical",
+      "nombre": "ZAP Surgical · Radiocirugia",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://zapsurgical.com/",
+          "patronEnlace": "news|event|webinar|education"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=ZAP%20Surgical%20radiosurgery%20training&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "xstrahl",
+      "nombre": "Xstrahl · Radioterapia superficial y educacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://xstrahl.com/news/",
+          "patronEnlace": "news|event|webinar|training"
+        }
+      ]
+    },
+    {
+      "id": "sectra",
+      "nombre": "Sectra Medical · Eventos e informatica de imagenes",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "informaticaImagenes",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://sectra.com/medical/events/",
+          "patronEnlace": "event|webinar|news"
+        }
+      ]
+    },
+    {
+      "id": "agfa",
+      "nombre": "Agfa HealthCare · Eventos y formacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "informaticaImagenes"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.agfahealthcare.com/events/",
+          "patronEnlace": "event|webinar|news"
+        }
+      ]
+    },
+    {
+      "id": "carestream",
+      "nombre": "Carestream Health · Educacion en radiologia digital",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.carestream.com/",
+          "patronEnlace": "education|webinar|news|event"
+        }
+      ]
+    },
+    {
+      "id": "konica-minolta",
+      "nombre": "Konica Minolta Healthcare · Educacion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://healthcare.konicaminolta.us/education/",
+          "patronEnlace": "education|webinar|training"
+        }
+      ]
+    },
+    {
+      "id": "curium",
+      "nombre": "Curium Pharma · Radiofarmacia y medicina nuclear",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://curiumpharma.com/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Curium%20radiopharmaceutical%20training%20OR%20nuclear%20medicine%20education&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "telix",
+      "nombre": "Telix Pharmaceuticals · Teranostica",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://telixpharma.com/news-views/",
+          "patronEnlace": "news|event|webinar"
+        }
+      ]
+    },
+    {
+      "id": "novartis-radioligandos",
+      "nombre": "Novartis · Terapia con radioligandos (formacion)",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.novartis.com/news",
+          "patronEnlace": "news|event"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "esaote",
+      "nombre": "Esaote · Ecografia y RM dedicada",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "ecografia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.esaote.com/",
+          "patronEnlace": "event|webinar|training|course|news"
+        }
+      ]
+    },
+    {
+      "id": "mindray",
+      "nombre": "Mindray · Academia de ecografia",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.mindray.com/en/media-center",
+          "patronEnlace": "news|event|academy|webinar"
+        }
+      ]
+    },
+    {
+      "id": "butterfly",
+      "nombre": "Butterfly Network · Formacion en ecografia de punto de atencion",
+      "grupo": "marcas",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": true,
+      "notas": "Ecografia: tu proyecto de largo plazo. Peso bajo a proposito, pero nunca se descarta.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.butterflynetwork.com/education",
+          "patronEnlace": "education|course|webinar|training"
+        }
+      ]
+    },
+    {
+      "id": "aium",
+      "nombre": "AIUM · Instituto Americano de Ultrasonido en Medicina",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.aium.org/",
+          "patronEnlace": "education|course|webinar|news"
+        }
+      ]
+    },
+    {
+      "id": "sdms",
+      "nombre": "SDMS · Sociedad de Ecografistas Medicos Diagnosticos",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.sdms.org/",
+          "patronEnlace": "education|course|webinar|news"
+        }
+      ]
+    },
+    {
+      "id": "wfumb",
+      "nombre": "WFUMB · Federacion Mundial de Ultrasonido en Medicina",
+      "grupo": "sociedades",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://wfumb.info/",
+          "patronEnlace": "news|event|course|congress"
+        }
+      ]
+    },
+    {
+      "id": "radiopaedia",
+      "nombre": "Radiopaedia · Cursos y eventos",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "resonancia"
+      ],
+      "detalle": true,
+      "notas": "Descuentos importantes para paises de ingreso medio. Vale la pena revisar el precio regional.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://radiopaedia.org/courses"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Radiopaedia%20course%20OR%20conference%20radiology&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "medality",
+      "nombre": "Medality (MRI Online) · Formacion en resonancia",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "resonancia",
+        "imagenologia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://mrionline.com/courses/",
+          "patronEnlace": "course|masterclass|webinar"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "coursera-salud",
+      "nombre": "Coursera · Cursos de imagenes medicas y radioterapia",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "inteligenciaArtificial",
+        "radioterapia"
+      ],
+      "detalle": false,
+      "notas": "Muchos se pueden auditar gratis. Ayuda financiera disponible para el certificado.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.coursera.org/search?query=medical%20imaging",
+          "patronEnlace": "/learn/|/specializations/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.coursera.org/search?query=radiation%20therapy",
+          "patronEnlace": "/learn/|/specializations/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "edx-salud",
+      "nombre": "edX · Cursos de fisica medica e imagenes",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "fisicaMedica",
+        "imagenologia",
+        "inteligenciaArtificial"
+      ],
+      "detalle": false,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.edx.org/search?q=medical+imaging",
+          "patronEnlace": "/learn/|/course/"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.edx.org/search?q=radiation",
+          "patronEnlace": "/learn/|/course/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "futurelearn",
+      "nombre": "FutureLearn · Cursos de salud e imagenes",
+      "grupo": "plataformas",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion"
+      ],
+      "detalle": false,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=FutureLearn%20radiography%20OR%20medical%20imaging%20course&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.futurelearn.com/search?q=radiography",
+          "patronEnlace": "/courses/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "econtour",
+      "nombre": "eContour · Contorneo en radioterapia (gratis)",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://econtour.org/",
+          "patronEnlace": "fellowship|news|cases|education|webinar"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=eContour%20contouring%20radiation%20oncology%20course&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "rad-aid",
+      "nombre": "RAD-AID International · Voluntariado y formacion",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "notas": "Busca voluntarios docentes, incluidos tecnologos medicos. Encaja con tu perfil de formador.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://rad-aid.org/",
+          "patronEnlace": "program|volunteer|news|event|training"
+        }
+      ]
+    },
+    {
+      "id": "radiology-across-borders",
+      "nombre": "Radiology Across Borders · Educacion gratuita",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "curso",
+      "areas": [
+        "imagenologia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.radiologyacrossborders.org/",
+          "patronEnlace": "course|event|webinar|program"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22Radiology%20Across%20Borders%22%20education&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "mpwb",
+      "nombre": "Medical Physics for World Benefit",
+      "grupo": "plataformas",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.mpwb.org/news/",
+          "patronEnlace": "news|program|event|volunteer"
+        }
+      ]
+    },
+    {
+      "id": "fulbright-chile",
+      "nombre": "Fulbright Chile · Becas a Estados Unidos",
+      "grupo": "becas",
+      "prioridad": "alta",
+      "pais": "Chile",
+      "idioma": "es",
+      "tipo": "beca",
+      "areas": [
+        "docenciaEducacion",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=Fulbright%20Chile%20beca%20convocatoria&hl=es-419&gl=CL&ceid=CL:es-419"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.fulbright.cl/becas/",
+          "patronEnlace": "beca|convocatoria|program",
+          "tlsRelajado": true
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "daad",
+      "nombre": "DAAD · Becas de Alemania",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Alemania",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "investigacion",
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=DAAD%20scholarship%20Chile%20OR%20Latin%20America%20medicine%20OR%20physics&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "tipo": "html",
+          "url": "https://www.daad.de/en/studying-in-germany/scholarships/",
+          "patronEnlace": "scholarship|stipendium"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "chevening",
+      "nombre": "Chevening · Becas del Reino Unido",
+      "grupo": "becas",
+      "prioridad": "baja",
+      "pais": "Reino Unido",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "docenciaEducacion",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.chevening.org/news/",
+          "patronEnlace": "news|scholarship|apply"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "fundacion-carolina",
+      "nombre": "Fundacion Carolina · Becas a Espana",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Espana",
+      "idioma": "es",
+      "tipo": "beca",
+      "areas": [
+        "docenciaEducacion",
+        "investigacion",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "notas": "Convocatoria anual grande, en espanol, con muchas plazas para Chile.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.fundacioncarolina.es/formacion/",
+          "patronEnlace": "beca|formacion|convocatoria|programa"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "erasmus-mundus",
+      "nombre": "Erasmus Mundus · Magister conjuntos con beca",
+      "grupo": "becas",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "fisicaMedica",
+        "imagenologia",
+        "investigacion"
+      ],
+      "detalle": true,
+      "notas": "Existen programas de imagenes medicas y fisica medica con beca completa incluida.",
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en",
+          "patronEnlace": "scholarship|catalogue|master"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "jica",
+      "nombre": "JICA · Cooperacion y capacitacion de Japon",
+      "grupo": "becas",
+      "prioridad": "baja",
+      "pais": "Japon",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "imagenologia",
+        "medicinaNuclear",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.jica.go.jp/english/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=JICA%20training%20program%20health%20Chile%20OR%20Latin%20America&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "koica",
+      "nombre": "KOICA · Cooperacion y becas de Corea",
+      "grupo": "becas",
+      "prioridad": "baja",
+      "pais": "Corea del Sur",
+      "idioma": "en",
+      "tipo": "beca",
+      "areas": [
+        "imagenologia",
+        "gestionCalidad"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.koica.go.kr/koica_en/index.do",
+          "patronEnlace": "news|program|scholarship"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=KOICA%20scholarship%20health%20Chile%20OR%20Latin%20America&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "arn-argentina",
+      "nombre": "ARN Argentina · Autoridad Regulatoria Nuclear",
+      "grupo": "reguladores",
+      "prioridad": "baja",
+      "pais": "Argentina",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.argentina.gob.ar/arn/noticias",
+          "patronEnlace": "noticia|curso|capacitacion"
+        }
+      ]
+    },
+    {
+      "id": "cnen-brasil",
+      "nombre": "CNEN Brasil · Comision Nacional de Energia Nuclear",
+      "grupo": "reguladores",
+      "prioridad": "baja",
+      "pais": "Brasil",
+      "idioma": "pt",
+      "areas": [
+        "proteccionRadiologica",
+        "medicinaNuclear"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.gov.br/cnen/pt-br",
+          "patronEnlace": "noticia|curso|capacitacao"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "ieee-nss-mic",
+      "nombre": "IEEE NSS/MIC · Congreso de instrumentacion e imagen medica",
+      "grupo": "congresos",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "medicinaNuclear",
+        "fisicaMedica",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://nssmic.ieee.org/",
+          "patronEnlace": "abstract|program|call|news"
+        }
+      ]
+    },
+    {
+      "id": "spie-medical-imaging",
+      "nombre": "SPIE Medical Imaging · Congreso y cursos",
+      "grupo": "congresos",
+      "prioridad": "baja",
+      "pais": "Estados Unidos",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "imagenologia",
+        "inteligenciaArtificial",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://spie.org/conferences-and-exhibitions/medical-imaging",
+          "patronEnlace": "medical-imaging|conference|call"
+        }
+      ]
+    },
+    {
+      "id": "miccai",
+      "nombre": "MICCAI · IA aplicada a imagenes medicas",
+      "grupo": "congresos",
+      "prioridad": "baja",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "inteligenciaArtificial",
+        "imagenologia",
+        "investigacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "http://www.miccai.org/",
+          "patronEnlace": "event|conference|call"
+        }
+      ]
+    },
+    {
+      "id": "estro-physics-workshop",
+      "nombre": "ESTRO Physics Workshop y GEC-ESTRO",
+      "grupo": "congresos",
+      "prioridad": "media",
+      "pais": "Europa",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.estro.org/Congresses",
+          "patronEnlace": "Congress|Workshop|GEC"
+        }
+      ]
+    },
+    {
+      "id": "iupesm",
+      "nombre": "IUPESM / Congreso Mundial de Fisica Medica e Ingenieria Biomedica",
+      "grupo": "congresos",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "fisicaMedica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://iupesm.org/",
+          "patronEnlace": "news|congress|call"
+        }
+      ]
+    },
+    {
+      "id": "isrrt-congreso",
+      "nombre": "ISRRT · Congreso Mundial de Tecnologos Medicos",
+      "grupo": "congresos",
+      "prioridad": "alta",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "congreso",
+      "areas": [
+        "imagenologia",
+        "radioterapia",
+        "docenciaEducacion"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.isrrt.org/world-congress",
+          "patronEnlace": "congress|abstract|registration"
+        }
+      ]
+    },
+    {
+      "id": "busq-becas-tm",
+      "nombre": "Busqueda · Becas para tecnologos medicos",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "docenciaEducacion",
+        "imagenologia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=tecnologo%20medico%20OR%20tecnologia%20medica%20curso%20OR%20beca%20OR%20congreso%20radiologia&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-becas-rt",
+      "nombre": "Busqueda · Becas y fellowships en radioterapia",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "radioterapia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=fellowship%20OR%20scholarship%20radiotherapy%20OR%20%22radiation%20oncology%22%20application%20deadline&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "busq-cursos-pr",
+      "nombre": "Busqueda · Cursos de proteccion radiologica",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=curso%20OR%20diplomado%20%22proteccion%20radiologica%22%20Chile%20OR%20Latinoamerica&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-fisica-medica",
+      "nombre": "Busqueda · Formacion en fisica medica",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "fisicaMedica"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22medical%20physics%22%20course%20OR%20school%20OR%20training%20application&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "busq-resonancia",
+      "nombre": "Busqueda · Formacion en resonancia magnetica",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "resonancia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=MRI%20technologist%20course%20OR%20training%20OR%20certification&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "busq-congresos-latam",
+      "nombre": "Busqueda · Congresos latinoamericanos del area",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "radioterapia",
+        "imagenologia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=congreso%20radioterapia%20OR%20imagenologia%20OR%20%22medicina%20nuclear%22%20resumenes%20plazo&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-docencia",
+      "nombre": "Busqueda · Formacion de formadores en salud",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "docenciaEducacion"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22formacion%20de%20formadores%22%20OR%20%22docencia%20universitaria%22%20salud%20tecnologia%20medica&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-oiea-chile",
+      "nombre": "Busqueda · OIEA y Chile",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "proteccionRadiologica",
+        "medicinaNuclear"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=OIEA%20Chile%20CCHEN%20capacitacion%20OR%20beca%20OR%20proyecto&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-ia-imagenes",
+      "nombre": "Busqueda · Inteligencia artificial en imagenes",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "inteligenciaArtificial",
+        "imagenologia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=%22artificial%20intelligence%22%20radiology%20course%20OR%20webinar%20free&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "busq-becas-chile",
+      "nombre": "Busqueda · Becas de postgrado para chilenos",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "investigacion",
+        "docenciaEducacion"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=beca%20postgrado%20extranjero%20Chile%20convocatoria%20salud%20OR%20ciencias&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-ecografia",
+      "nombre": "Busqueda · Formacion en ecografia",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Latinoamerica",
+      "idioma": "es",
+      "areas": [
+        "ecografia"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=curso%20ecografia%20OR%20ultrasonido%20formacion%20profesional%20salud&hl=es-419&gl=CL&ceid=CL:es-419"
+        }
+      ]
+    },
+    {
+      "id": "busq-teranostica",
+      "nombre": "Busqueda · Teranostica y medicina nuclear",
+      "grupo": "busqueda",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "areas": [
+        "medicinaNuclear"
+      ],
+      "detalle": false,
+      "notas": "Red de seguridad: barre lo que se publica en cualquier parte, incluidos sitios que bloquean el acceso directo del radar.",
+      "estrategias": [
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=theranostics%20OR%20%22nuclear%20medicine%20technologist%22%20course%20OR%20training&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    },
+    {
+      "id": "iaea-publicaciones",
+      "nombre": "OIEA · Publicaciones y guias tecnicas",
+      "grupo": "organismos",
+      "prioridad": "media",
+      "pais": "Internacional",
+      "idioma": "en",
+      "tipo": "publicacion",
+      "areas": [
+        "proteccionRadiologica",
+        "fisicaMedica",
+        "radioterapia"
+      ],
+      "detalle": false,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www-pub.iaea.org/books/",
+          "patronEnlace": "/books/|/Book/"
+        }
+      ],
+      "amplia": true
+    },
+    {
+      "id": "iaea-cooperacion-noticias",
+      "nombre": "OIEA · Cooperacion tecnica en accion",
+      "grupo": "organismos",
+      "prioridad": "alta",
+      "pais": "Latinoamerica",
+      "idioma": "en",
+      "areas": [
+        "radioterapia",
+        "medicinaNuclear",
+        "proteccionRadiologica"
+      ],
+      "detalle": true,
+      "estrategias": [
+        {
+          "tipo": "html",
+          "url": "https://www.iaea.org/services/technical-cooperation-programme/how-it-works",
+          "patronEnlace": "/technical-cooperation|/newscenter/"
+        },
+        {
+          "tipo": "feed",
+          "url": "https://news.google.com/rss/search?q=IAEA%20technical%20cooperation%20Latin%20America%20cancer%20OR%20radiotherapy&hl=en-US&gl=US&ceid=US:en"
+        }
+      ],
+      "amplia": true
+    }
+  ]
+}

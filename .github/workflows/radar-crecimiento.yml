@@ -1,0 +1,115 @@
+# Corre el radar en los servidores de GitHub, gratis, sin depender de que tu
+# computador este encendido.
+#
+# Secretos necesarios (Settings -> Secrets and variables -> Actions):
+#   SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, CORREO_DESTINO
+# Opcionales:
+#   NTFY_TOPIC, NTFY_SERVER, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
+#
+# La base con todo lo encontrado se guarda en la rama "datos". En tu computador,
+# "npm run sincronizar" la baja y la funde con la tuya sin pisar lo que marcaste.
+
+name: Radar de Crecimiento Profesional
+
+on:
+  schedule:
+    # 11:15 UTC = 07:15 en Chile continental (08:15 en horario de invierno).
+    # Deliberadamente distinto a tus otros radares para no recibir todo junto.
+    - cron: '15 11 * * *'
+    # El dia 1 de cada mes, ademas, el resumen del horizonte a 12 meses.
+    - cron: '30 12 1 * *'
+  workflow_dispatch:
+    inputs:
+      profundo:
+        description: 'Abrir mas fichas por fuente (mas lento, mas detalle)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar-crecimiento
+  cancel-in-progress: false
+
+jobs:
+  escanear:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Recuperar la base de la ejecucion anterior
+        env:
+          REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          mkdir -p datos
+          if git clone --depth 1 --branch datos --quiet "$REPO" /tmp/historial 2>/dev/null; then
+            cp /tmp/historial/radar.db datos/radar.db 2>/dev/null || true
+            echo "Base recuperada: $(ls -la datos || true)"
+          else
+            echo "Primera ejecucion: todavia no hay historial."
+          fi
+
+      - name: Escanear y avisar
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          CORREO_DESTINO: ${{ secrets.CORREO_DESTINO }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NTFY_SERVER: ${{ secrets.NTFY_SERVER }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node src/cli.js escanear --avisar ${{ inputs.profundo && '--profundo' || '' }}
+
+      - name: Resumen mensual del horizonte
+        if: github.event.schedule == '30 12 1 * *'
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          CORREO_DESTINO: ${{ secrets.CORREO_DESTINO }}
+        run: node src/cli.js horizonte 12 --correo
+
+      # El panel de bolsillo: un solo archivo HTML con los datos adentro, para
+      # abrirlo desde el celular. Se regenera en cada escaneo.
+      - name: Generar el panel de bolsillo
+        if: always()
+        run: node src/cli.js exportar sitio/index.html
+
+      # Se guarda aunque el escaneo haya fallado a medias: lo ya encontrado
+      # no deberia perderse.
+      - name: Guardar la base y el panel en la rama datos
+        if: always()
+        env:
+          REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          if [ ! -f datos/radar.db ]; then echo "No hay base que guardar."; exit 0; fi
+          rm -rf /tmp/publicar && mkdir -p /tmp/publicar
+          cp datos/radar.db /tmp/publicar/radar.db
+          # index.html en la raiz de la rama: si activas GitHub Pages sobre la
+          # rama "datos", esta es la pagina que queda publicada.
+          cp sitio/index.html /tmp/publicar/index.html 2>/dev/null || true
+          touch /tmp/publicar/.nojekyll
+          cd /tmp/publicar
+          git init -q
+          git checkout -q -b datos
+          git config user.name "radar-crecimiento"
+          git config user.email "actions@github.com"
+          git add radar.db
+          git commit -q -m "Escaneo $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push -q --force "$REPO" datos
+
+      - name: Salud de las fuentes
+        if: always()
+        run: node src/cli.js salud

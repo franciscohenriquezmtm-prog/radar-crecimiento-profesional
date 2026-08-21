@@ -1,0 +1,65 @@
+{
+  "_comentario": "Calendario semilla: el seguro del radar. Son los ciclos que se repiten todos los anos. Aunque una pagina cambie de diseno y su lector se rompa, estas convocatorias igual apareceran en el panel con su fecha ESTIMADA y el aviso de confirmar en la fuente. Nunca se muestran como fecha oficial.",
+  "_como_se_usa": "mesAprox 1-12. El radar proyecta la proxima ocurrencia futura. Si el escaneo encuentra la convocatoria real en el sitio, esa gana y la semilla se oculta para no duplicar.",
+  "_advertencia": "Las fechas de aca son referencias del ciclo historico, NO fechas oficiales. Siempre aparecen marcadas como estimadas en el panel y en el correo.",
+
+  "ciclos": [
+
+    { "id": "sem-iaea-tc", "titulo": "OIEA - Postulacion a becas y visitas cientificas (via CCHEN)", "organizacion": "OIEA / CCHEN", "tipo": "beca", "areas": ["radioterapia", "fisicaMedica", "medicinaNuclear", "proteccionRadiologica"], "recurrencia": "continua", "mesAprox": 3, "url": "https://www.cchen.cl/", "notas": "No hay una fecha unica: las becas se abren cuando hay proyecto de Cooperacion Tecnica activo. Lo que si conviene es preguntar a la CCHEN una o dos veces al ano por las vacantes vigentes para Chile. Este recordatorio existe para que no se te olvide preguntar." },
+
+    { "id": "sem-iaea-tc-ciclo", "titulo": "OIEA - Formulacion del nuevo ciclo de Cooperacion Tecnica", "organizacion": "OIEA / CCHEN", "tipo": "convocatoria", "areas": ["radioterapia", "fisicaMedica", "medicinaNuclear"], "recurrencia": "bienal", "mesAprox": 6, "url": "https://www.iaea.org/services/technical-cooperation-programme", "notas": "Los ciclos del programa de Cooperacion Tecnica son bienales y las ideas de proyecto se recogen con mas de un ano de anticipacion, a nivel institucional. Si tu servicio quiere proponer algo (equipamiento, capacitacion, expertos), esta es la ventana." },
+
+    { "id": "sem-iaea-crp", "titulo": "OIEA - Convocatorias abiertas de Proyectos Coordinados de Investigacion (CRP)", "organizacion": "OIEA", "tipo": "investigacion", "areas": ["radioterapia", "fisicaMedica", "medicinaNuclear"], "recurrencia": "continua", "mesAprox": 5, "url": "https://www.iaea.org/services/coordinated-research-activities/open-calls-for-proposals", "notas": "Se abren y cierran durante todo el ano. Revisar el listado cada pocos meses." },
+
+    { "id": "sem-iaea-mscfp", "titulo": "OIEA - Beca Marie Sklodowska-Curie (MSCFP)", "organizacion": "OIEA", "tipo": "beca", "areas": ["fisicaMedica", "proteccionRadiologica"], "recurrencia": "anual", "mesAprox": 9, "url": "https://www.iaea.org/services/key-programmes/marie-sklodowska-curie-fellowship-programme", "notas": "Para estudiantes mujeres que inician magister en areas nucleares. Sirve para difundir en tus clases de la UBO." },
+
+    { "id": "sem-ictp-medphys", "titulo": "ICTP/OIEA - College on Medical Physics (Trieste)", "organizacion": "ICTP", "tipo": "curso", "areas": ["fisicaMedica", "radioterapia", "imagenologia"], "recurrencia": "bienal", "mesAprox": 4, "url": "https://www.ictp.it/scientific-calendar", "notas": "Escuela con financiamiento para participantes de paises en desarrollo. La postulacion suele cerrar varios meses antes del curso." },
+
+    { "id": "sem-estro-congreso", "titulo": "ESTRO - Envio de resumenes al congreso anual", "organizacion": "ESTRO", "tipo": "call-abstracts", "areas": ["radioterapia", "fisicaMedica"], "recurrencia": "anual", "mesAprox": 10, "url": "https://www.estro.org/Congresses", "notas": "El congreso es a comienzos de ano y el envio de resumenes cierra el otono anterior. Tiene categoria propia de RTT y becas de viaje para no europeos." },
+
+    { "id": "sem-estro-cursos", "titulo": "ESTRO School - Publicacion del catalogo de cursos del ano siguiente", "organizacion": "ESTRO", "tipo": "curso", "areas": ["radioterapia", "fisicaMedica", "docenciaEducacion"], "recurrencia": "anual", "mesAprox": 9, "url": "https://www.estro.org/Courses", "notas": "Cuando sale el catalogo conviene mirarlo completo: los cursos con cupo se llenan meses antes." },
+
+    { "id": "sem-astro", "titulo": "ASTRO - Envio de resumenes al Annual Meeting", "organizacion": "ASTRO", "tipo": "call-abstracts", "areas": ["radioterapia", "fisicaMedica"], "recurrencia": "anual", "mesAprox": 2, "url": "https://www.astro.org/Meetings-and-Education", "notas": "Congreso en septiembre u octubre, resumenes a comienzos de ano." },
+
+    { "id": "sem-aapm", "titulo": "AAPM - Envio de resumenes al Annual Meeting", "organizacion": "AAPM", "tipo": "call-abstracts", "areas": ["fisicaMedica", "radioterapia", "imagenologia"], "recurrencia": "anual", "mesAprox": 3, "url": "https://www.aapm.org/meetings/", "notas": "Congreso a mediados de ano." },
+
+    { "id": "sem-rsna", "titulo": "RSNA - Envio de resumenes al congreso anual", "organizacion": "RSNA", "tipo": "call-abstracts", "areas": ["imagenologia", "resonancia", "inteligenciaArtificial"], "recurrencia": "anual", "mesAprox": 4, "url": "https://www.rsna.org/annual-meeting", "notas": "Congreso a fines de noviembre en Chicago. Tiene programas y tarifas especiales para participantes internacionales." },
+
+    { "id": "sem-ecr", "titulo": "ECR - Envio de resumenes al Congreso Europeo de Radiologia", "organizacion": "ESR", "tipo": "call-abstracts", "areas": ["imagenologia", "resonancia"], "recurrencia": "anual", "mesAprox": 10, "url": "https://www.myesr.org/congress/", "notas": "Congreso en Viena a comienzos de marzo." },
+
+    { "id": "sem-ismrm", "titulo": "ISMRM - Envio de resumenes al congreso anual (y SMRT)", "organizacion": "ISMRM", "tipo": "call-abstracts", "areas": ["resonancia"], "recurrencia": "anual", "mesAprox": 11, "url": "https://www.ismrm.org/", "notas": "La SMRT, su seccion de tecnologos de resonancia, tiene via de envio propia y becas de viaje." },
+
+    { "id": "sem-snmmi", "titulo": "SNMMI - Envio de resumenes al Annual Meeting", "organizacion": "SNMMI", "tipo": "call-abstracts", "areas": ["medicinaNuclear"], "recurrencia": "anual", "mesAprox": 1, "url": "https://www.snmmi.org/", "notas": "Incluye via para tecnologos (SNMMI-TS)." },
+
+    { "id": "sem-eanm", "titulo": "EANM - Envio de resumenes al congreso anual", "organizacion": "EANM", "tipo": "call-abstracts", "areas": ["medicinaNuclear"], "recurrencia": "anual", "mesAprox": 4, "url": "https://www.eanm.org/congresses-events/", "notas": "Congreso en octubre, con comite de tecnologos." },
+
+    { "id": "sem-isrrt", "titulo": "ISRRT - Congreso Mundial de Tecnologos Medicos", "organizacion": "ISRRT", "tipo": "congreso", "areas": ["imagenologia", "radioterapia", "docenciaEducacion"], "recurrencia": "bienal", "mesAprox": 3, "url": "https://www.isrrt.org/world-congress", "notas": "Es EL congreso de tu profesion a nivel mundial. Los resumenes cierran varios meses antes y suele haber apoyo para participantes de paises en desarrollo." },
+
+    { "id": "sem-alatro", "titulo": "ALATRO - Congreso latinoamericano de radioterapia", "organizacion": "ALATRO", "tipo": "congreso", "areas": ["radioterapia"], "recurrencia": "bienal", "mesAprox": 5, "url": "https://alatro.org/", "notas": "En espanol, en la region y con costos alcanzables. Buena primera experiencia para presentar trabajo." },
+
+    { "id": "sem-alfim", "titulo": "ALFIM - Congreso Latinoamericano de Fisica Medica", "organizacion": "ALFIM", "tipo": "congreso", "areas": ["fisicaMedica", "radioterapia"], "recurrencia": "bienal", "mesAprox": 4, "url": "https://alfim.net/", "notas": "Suele tener cursos precongreso muy buenos y baratos." },
+
+    { "id": "sem-iomp-wc", "titulo": "IUPESM - Congreso Mundial de Fisica Medica e Ingenieria Biomedica", "organizacion": "IUPESM / IOMP", "tipo": "congreso", "areas": ["fisicaMedica"], "recurrencia": "trienal", "mesAprox": 6, "url": "https://iupesm.org/", "notas": "Cada tres anos. Vale la pena tenerlo en el horizonte largo." },
+
+    { "id": "sem-irpa", "titulo": "IRPA - Congreso de proteccion radiologica (mundial y regional)", "organizacion": "IRPA", "tipo": "congreso", "areas": ["proteccionRadiologica"], "recurrencia": "bienal", "mesAprox": 5, "url": "https://www.irpa.net/", "notas": "El mundial es cada cuatro anos; el regional latinoamericano es mas frecuente y mas accesible." },
+
+    { "id": "sem-anid-extranjero", "titulo": "ANID - Becas de magister y doctorado en el extranjero", "organizacion": "ANID", "tipo": "beca", "areas": ["investigacion", "docenciaEducacion"], "recurrencia": "anual", "mesAprox": 3, "url": "https://anid.cl/concursos/", "notas": "La postulacion pide carta de aceptacion o postulacion en curso, asi que el trabajo real parte con casi un ano de anticipacion." },
+
+    { "id": "sem-anid-nacional", "titulo": "ANID - Becas de magister y doctorado nacional", "organizacion": "ANID", "tipo": "beca", "areas": ["investigacion", "docenciaEducacion"], "recurrencia": "anual", "mesAprox": 8, "url": "https://anid.cl/concursos/", "notas": "Alternativa realista si quieres seguir trabajando mientras estudias." },
+
+    { "id": "sem-fulbright", "titulo": "Fulbright Chile - Convocatoria de becas", "organizacion": "Fulbright Chile", "tipo": "beca", "areas": ["docenciaEducacion", "investigacion"], "recurrencia": "anual", "mesAprox": 5, "url": "https://fulbright.cl/becas/", "notas": "Valora fuerte el componente docente y el compromiso de volver a ensenar en Chile. Tu perfil UBO juega a favor." },
+
+    { "id": "sem-carolina", "titulo": "Fundacion Carolina - Convocatoria anual de becas a Espana", "organizacion": "Fundacion Carolina", "tipo": "beca", "areas": ["docenciaEducacion", "gestionCalidad", "investigacion"], "recurrencia": "anual", "mesAprox": 1, "url": "https://www.fundacioncarolina.es/formacion/", "notas": "Convocatoria grande y en espanol. Incluye postgrados de salud y estancias cortas para docentes." },
+
+    { "id": "sem-erasmus", "titulo": "Erasmus Mundus - Postulacion a magister conjuntos con beca", "organizacion": "Comision Europea", "tipo": "beca", "areas": ["fisicaMedica", "imagenologia", "investigacion"], "recurrencia": "anual", "mesAprox": 12, "url": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en", "notas": "Cada consorcio tiene su fecha, en general entre noviembre y enero. Hay programas de imagenes medicas." },
+
+    { "id": "sem-cchen-pr", "titulo": "CCHEN - Cursos de proteccion radiologica y licencia de operacion", "organizacion": "CCHEN", "tipo": "curso", "areas": ["proteccionRadiologica"], "recurrencia": "semestral", "mesAprox": 3, "url": "https://www.cchen.cl/", "notas": "Cupos limitados y se llenan rapido. Es el requisito formal en Chile para varias funciones." },
+
+    { "id": "sem-sochradi", "titulo": "SOCHRADI - Congreso Chileno de Radiologia", "organizacion": "SOCHRADI", "tipo": "congreso", "areas": ["imagenologia", "resonancia"], "recurrencia": "anual", "mesAprox": 8, "url": "https://www.sochradi.cl/", "notas": "El congreso de la especialidad en Chile. Suele tener modulo de tecnologos medicos." },
+
+    { "id": "sem-colegio-tm", "titulo": "Colegio de Tecnologos Medicos - Jornadas y congreso nacional", "organizacion": "Colegio de Tecnologos Medicos de Chile", "tipo": "congreso", "areas": ["imagenologia", "radioterapia", "medicinaNuclear", "docenciaEducacion"], "recurrencia": "anual", "mesAprox": 10, "url": "https://www.colegiotecnologosmedicos.cl/", "notas": "El espacio natural para presentar experiencia docente y de servicio clinico." },
+
+    { "id": "sem-rsna-global", "titulo": "RSNA - Programas internacionales (Global Learning Centers, visiting professor)", "organizacion": "RSNA", "tipo": "convocatoria", "areas": ["imagenologia", "docenciaEducacion"], "recurrencia": "anual", "mesAprox": 6, "url": "https://www.rsna.org/about/global-outreach", "notas": "Convocatorias que buscan instituciones y docentes. Encaja con el criterio de ensenar a otros." }
+
+  ]
+}

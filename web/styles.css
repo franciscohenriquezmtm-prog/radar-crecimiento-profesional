@@ -1,0 +1,279 @@
+:root {
+  --fondo: #f6f7f9;
+  --papel: #ffffff;
+  --tinta: #1c2530;
+  --suave: #6b7684;
+  --linea: #e3e7ec;
+  --azul: #14375e;
+  --verde: #1d7a4c;
+  --ambar: #a06a00;
+  --rojo: #a33333;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 15px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 28px;
+  background: var(--azul);
+  color: #fff;
+  flex-wrap: wrap;
+}
+.cabecera h1 { margin: 0; font-size: 20px; font-weight: 650; }
+.sub { margin: 2px 0 0; font-size: 13px; opacity: .8; }
+
+.boton {
+  background: #fff;
+  color: var(--azul);
+  border: none;
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.boton:disabled { opacity: .55; cursor: default; }
+
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 18px 28px 6px;
+}
+.dato {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.dato .n { font-size: 24px; font-weight: 650; }
+.dato .t { font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
+.dato.alerta .n { color: var(--rojo); }
+
+.pestanas { display: flex; gap: 4px; padding: 14px 28px 0; flex-wrap: wrap; }
+.pestana {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: var(--suave);
+  cursor: pointer;
+}
+.pestana.activa { color: var(--azul); border-bottom-color: var(--azul); font-weight: 600; }
+
+.atajos {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 14px 28px 0;
+}
+.atajo {
+  border: 1px solid var(--linea);
+  background: var(--papel);
+  color: var(--suave);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.atajo:hover { border-color: var(--azul); color: var(--azul); }
+.atajo.activo { background: var(--azul); color: #fff; border-color: var(--azul); font-weight: 600; }
+
+.filtros {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 14px 28px;
+  align-items: center;
+}
+.filtros input[type=search], .filtros select {
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: var(--papel);
+  color: var(--tinta);
+}
+.filtros input[type=search] { min-width: 260px; flex: 1; }
+.check { font-size: 13px; color: var(--suave); display: flex; align-items: center; gap: 6px; }
+
+main { padding: 0 28px 40px; }
+
+.tarjeta {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--suave);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+}
+.tarjeta.verde { border-left-color: var(--verde); }
+.tarjeta.amarillo { border-left-color: var(--ambar); }
+.tarjeta.rojo { border-left-color: var(--rojo); }
+.tarjeta.descartada { opacity: .5; }
+
+.linea-fuente { font-size: 12px; color: var(--suave); margin-bottom: 3px; }
+.titulo { font-size: 16px; font-weight: 620; line-height: 1.35; margin: 0 0 6px; }
+.titulo a { color: var(--azul); text-decoration: none; }
+.titulo a:hover { text-decoration: underline; }
+
+.plazo { font-size: 13px; margin-bottom: 6px; }
+.plazo.urgente { color: var(--rojo); font-weight: 600; }
+.estimada { font-size: 11px; color: var(--ambar); font-style: italic; }
+
+.etiquetas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.etiqueta {
+  font-size: 11px;
+  background: #eef1f5;
+  color: #445;
+  border-radius: 20px;
+  padding: 3px 9px;
+}
+.etiqueta.dinero { background: #e7f4ec; color: var(--verde); }
+.etiqueta.online { background: #e8eefb; color: var(--azul); }
+
+.resumen { font-size: 13.5px; color: #333; margin: 6px 0; }
+
+/* El resumen en espanol: lo primero que se lee de cada tarjeta. */
+.de-que-se-trata { font-size: 14px; color: var(--tinta); margin: 8px 0 6px; line-height: 1.5; }
+
+/* Las palabras textuales de la fuente. Van despues del resumen en espanol y se
+   distinguen de el a proposito: esto no lo escribio el radar. */
+.textual {
+  margin: 0 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--linea);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tenue);
+}
+.plata-bloque {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  background: #eef6f1;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.monto { font-weight: 700; color: var(--verde); margin-right: 8px; }
+.cita-plata { color: var(--suave); }
+.cita-plata.sin-dato { font-style: italic; }
+.plata-bloque.vacia { background: transparent; border: 1px dashed var(--linea); }
+
+.rotulo-textual {
+  display: block;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 3px;
+  color: var(--azul);
+}
+
+.original { margin: 4px 0 2px; }
+.original summary { font-size: 12px; color: var(--suave); cursor: pointer; list-style: none; }
+.original summary::before { content: '\203A  '; }
+.original[open] summary::before { content: '\2304  '; }
+.original p { font-size: 12.5px; color: var(--suave); margin: 6px 0 0; }
+.etiqueta.para-mi { background: #e7f4ec; color: var(--verde); font-weight: 600; }
+
+.puedo {
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 8px 0 4px;
+  background: #f4f6f8;
+}
+.puedo.verde { background: #edf7f1; color: #14562f; }
+.puedo.amarillo { background: #fdf5e5; color: #6f4a00; }
+.puedo.rojo { background: #fbeeee; color: #7d2222; }
+.puedo b { display: block; margin-bottom: 2px; }
+
+.requisitos { font-size: 12px; color: var(--suave); margin: 4px 0 0; padding-left: 18px; }
+
+.controles { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+.mini {
+  border: 1px solid var(--linea);
+  background: var(--papel);
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--suave);
+}
+.mini:hover { border-color: var(--azul); color: var(--azul); }
+.mini.activo { background: var(--azul); color: #fff; border-color: var(--azul); }
+.puntaje { margin-left: auto; font-size: 11px; color: #aab; }
+
+.mes { margin: 26px 0 10px; font-size: 15px; font-weight: 650; color: var(--azul); border-bottom: 1px solid var(--linea); padding-bottom: 6px; }
+
+table.salud { width: 100%; border-collapse: collapse; background: var(--papel); font-size: 13px; }
+table.salud th, table.salud td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+table.salud th { font-size: 11px; text-transform: uppercase; color: var(--suave); letter-spacing: .04em; }
+.punto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.punto.ok { background: var(--verde); }
+.punto.mal { background: var(--rojo); }
+.punto.tibio { background: var(--ambar); }
+
+.vacio { color: var(--suave); padding: 30px 0; text-align: center; }
+.pie { padding: 20px 28px 40px; font-size: 12px; color: var(--suave); max-width: 800px; }
+
+/* ── En el celular ──────────────────────────────────────────
+   Menos margenes, filtros a lo ancho y botones grandes para el dedo. */
+@media (max-width: 640px) {
+  .cabecera { padding: 14px 16px; }
+  .cabecera h1 { font-size: 17px; }
+  .sub { display: none; }
+  .tablero {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 12px 14px 4px;
+  }
+  .dato { padding: 8px 10px; }
+  .dato .n { font-size: 19px; }
+  .dato .t { font-size: 10px; letter-spacing: 0; }
+  .pestanas { padding: 10px 14px 0; }
+  .atajos { padding: 12px 14px 0; gap: 5px; }
+  .atajo { padding: 8px 12px; font-size: 12.5px; }
+  .pestana { padding: 8px 10px; font-size: 13px; }
+  .filtros { padding: 10px 14px; gap: 6px; }
+  .filtros input[type=search] { min-width: 100%; }
+  .filtros select { flex: 1 1 46%; font-size: 13px; }
+  main { padding: 0 14px 30px; }
+  .tarjeta { padding: 12px 14px; }
+  .titulo { font-size: 15.5px; }
+  .mini { padding: 9px 12px; font-size: 13px; }
+  .puntaje { margin-left: 0; width: 100%; }
+  table.salud { display: block; overflow-x: auto; white-space: nowrap; }
+  .pie { padding: 16px 14px 30px; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #14181d;
+    --papel: #1c2229;
+    --tinta: #e7ebf0;
+    --suave: #93a0ae;
+    --linea: #2b333c;
+    --azul: #6ea8e6;
+  }
+  .cabecera { background: #101820; }
+  .boton { background: #6ea8e6; color: #0d1319; }
+  .etiqueta { background: #26303a; color: #c3cedb; }
+  .puedo { background: #222a33; }
+  .puedo.verde { background: #16281f; color: #8fd7ac; }
+  .puedo.amarillo { background: #2b2417; color: #e5c37f; }
+  .puedo.rojo { background: #2c1c1c; color: #e79a9a; }
+  .plata-bloque { background: #17251e; }
+  .resumen { color: #c9d2dc; }
+}
