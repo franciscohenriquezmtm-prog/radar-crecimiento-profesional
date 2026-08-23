@@ -56,7 +56,11 @@ let nuevas = 0;
 let actualizadas = 0;
 let respetadas = 0;
 
-const locales = new Map(db.listar({ limite: 100000, soloAbiertas: false }).map((f) => [f.id, f]));
+const listaLocal = db.db.prepare('SELECT id, url, estado FROM oportunidades').all();
+const locales = new Map(listaLocal.map((f) => [f.id, f]));
+// El segundo indice, por url, es el que evita el choque: la url es unica en la
+// base, el id no siempre coincide entre las dos maquinas.
+const porUrl = new Map(listaLocal.filter((f) => f.url).map((f) => [f.url, f]));
 
 const columnas = [
   'url', 'titulo', 'resumen', 'resumen_es', 'descripcion', 'contenido', 'dinero', 'publico', 'texto', 'fuente_id', 'fuente_nombre', 'grupo', 'organizacion',
@@ -73,18 +77,29 @@ const refrescar = db.db.prepare(`
   UPDATE oportunidades SET ${columnas.map((c) => `${c} = ?`).join(', ')}, actualizado = ? WHERE id = ?
 `);
 
+let saltadas = 0;
+
 for (const f of filas) {
   const valores = columnas.map((c) => f[c] ?? null);
-  const local = locales.get(f.id);
-  if (!local) {
-    insertar.run(f.id, ...valores, f.creado, f.actualizado);
-    nuevas++;
-    continue;
+  // Primero por id; si no esta, por url, que es lo mismo con otro nombre.
+  const local = locales.get(f.id) || (f.url ? porUrl.get(f.url) : null);
+  try {
+    if (!local) {
+      insertar.run(f.id, ...valores, f.creado, f.actualizado);
+      nuevas++;
+      continue;
+    }
+    // Lo que tu decidiste manda: estado, notas y avisos no se tocan.
+    if (local.estado !== 'nuevo' && local.estado !== 'visto') respetadas++;
+    // Se actualiza sobre el id que ya existe aca, no sobre el de la nube: asi
+    // sigue apuntando a la ficha que tu marcaste.
+    refrescar.run(...valores, f.actualizado, local.id);
+    actualizadas++;
+  } catch (e) {
+    // Una ficha con problemas no puede botar la sincronizacion completa.
+    saltadas++;
+    if (saltadas <= 3) log.aviso(`No pude traer "${String(f.titulo || '').slice(0, 60)}": ${e.message}`);
   }
-  // Lo que tu decidiste manda: estado, notas y avisos no se tocan.
-  if (local.estado !== 'nuevo' && local.estado !== 'visto') respetadas++;
-  refrescar.run(...valores, f.actualizado, f.id);
-  actualizadas++;
 }
 
 remota.close();
@@ -92,4 +107,5 @@ fs.rmSync(temporal, { force: true });
 
 log.info(`${nuevas} oportunidades nuevas desde la nube`);
 log.info(`${actualizadas} actualizadas · ${respetadas} conservaron tu marca (guardada, postulada o descartada)`);
+if (saltadas) log.aviso(`${saltadas} quedaron fuera por datos con problemas; el resto entro igual.`);
 console.log('');
