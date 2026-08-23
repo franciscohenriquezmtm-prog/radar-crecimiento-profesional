@@ -178,6 +178,30 @@ async function main() {
       break;
     }
 
+    case 'completar-siglas': {
+      // Rellena solo lo que falta, sin pedir nada por internet.
+      //
+      // Cuando se agrega una columna nueva, las fichas que ya estaban guardadas
+      // quedan en null hasta que les toque su proximo escaneo, y en la nube eso
+      // puede tardar semanas. Las siglas se sacan del texto que ya esta en la
+      // base, asi que no hay motivo para esperar. Si no falta ninguna, no hace
+      // nada: se puede correr todos los dias sin costo.
+      const { siglasEn } = await import('./siglas.js');
+      const faltan = db.db.prepare(
+        'SELECT id, titulo, resumen, descripcion, contenido FROM oportunidades WHERE siglas IS NULL',
+      ).all();
+      const poner = db.db.prepare('UPDATE oportunidades SET siglas=? WHERE id=?');
+      let con = 0;
+      for (const f of faltan) {
+        const siglas = siglasEn([f.titulo, f.resumen, f.descripcion, f.contenido].filter(Boolean).join(' '));
+        poner.run(JSON.stringify(siglas), f.id);
+        if (siglas.length) con++;
+      }
+      if (!faltan.length) log.info('Todas las fichas ya tienen sus siglas revisadas.');
+      else log.info(`${faltan.length} fichas revisadas · ${con} traen siglas por explicar`);
+      break;
+    }
+
     case 'exportar': {
       const { exportar } = await import('./exportar.js');
       const r = exportar(sueltos[0], { fragmento: banderas.has('--fragmento') });

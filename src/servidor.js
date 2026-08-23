@@ -38,7 +38,14 @@ function leerCuerpo(req) {
 }
 
 function expandir(fila) {
-  const parsear = (t, pd) => { try { return JSON.parse(t); } catch { return pd; } };
+  const parsear = (t, pd) => {
+    if (t === null || t === undefined || t === '') return pd;
+    let v;
+    try { v = JSON.parse(t); } catch { return pd; }
+    if (v === null || v === undefined) return pd;
+    if (Array.isArray(pd) && !Array.isArray(v)) return pd;
+    return v;
+  };
   return {
     ...fila,
     areas: parsear(fila.areas, []),

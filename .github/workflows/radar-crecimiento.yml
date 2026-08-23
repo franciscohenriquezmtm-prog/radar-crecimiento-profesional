@@ -92,6 +92,13 @@ jobs:
           CORREO_DESTINO: ${{ secrets.CORREO_DESTINO }}
         run: node src/cli.js horizonte 12 --correo
 
+      # Las fichas guardadas antes de que existiera el glosario tienen la
+      # columna vacia. Se llena con el texto que ya esta en la base, sin pedir
+      # nada por internet, y no hace nada cuando no falta ninguna.
+      - name: Completar las siglas que falten
+        if: always()
+        run: node src/cli.js completar-siglas
+
       # El panel de bolsillo: un solo archivo HTML con los datos adentro, para
       # abrirlo desde el celular. Se regenera en cada escaneo.
       - name: Generar el panel de bolsillo
